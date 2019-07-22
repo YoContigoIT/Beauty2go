@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="orders"></ion-back-button>
+        </ion-buttons>
+      <ion-title>Ayuda</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No hay de qué preocuparte.</ion-card-title>
+        <ion-card-subtitle>Platícanos que pasó y enseguida lo resolvemos. Te escribiremos a tu correo :)</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
+  <!-- <ion-toolbar class="button-toolbar">
+    <ion-button>Quiero cambiar la fecha de cita</ion-button>
+  </ion-toolbar> -->
+  <ion-toolbar class="button-toolbar" *ngIf="order.status === 'Por Atender' || order.status === 'Nuevo'">
+    <ion-button (click)="cancelOrderClicked()">Quiero cancelar este servicio</ion-button>
+  </ion-toolbar>
+  <ion-toolbar class="button-toolbar">
+    <ion-button (click)="otroClicked()">{{ (order.status !== 'Por Atender' && order.status !== 'Nuevo') ? 'Escibenos' : 'Otro'}}</ion-button>
+  </ion-toolbar>
+
+</ion-content>

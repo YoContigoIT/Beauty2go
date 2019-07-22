@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+      </ion-buttons>
+    <ion-title>¿Qué te quieres hacer?</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCart()">
+        <ion-badge *ngIf="cart.length > 0">{{cart.length}}</ion-badge>
+        <ion-icon name="cart" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="timeline">
+
+  <app-accordion *ngFor="let cat of categories" [category]="cat">
+  </app-accordion>
+
+</ion-content>

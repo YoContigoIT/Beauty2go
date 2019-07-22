@@ -1,0 +1,33 @@
+<!-- <ion-card>
+  <ion-card-content #cc>
+    {{ category.category }}
+  </ion-card-content>
+</ion-card> -->
+
+<div class="category-block">
+  <ion-row no-padding class="category-banner">
+    <ion-col text-left button tappable align-self-center (click)="toggleAccordion()">
+      {{ category.category_name }}
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="accordionExpanded">
+    <ion-slides [options]="sliderConfig">
+      <ion-slide *ngFor="let product of category.products">  
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ product.product.product_name }}
+            </ion-card-title>
+            <ion-card-content>
+              <img src="{{product.product.img_src}}">
+              <ion-label >{{ product.product.price | currency:'MXN':'symbol' }}</ion-label>
+              <ion-button [disabled]="alreadyOnCart(product)" expand="full" (click)="addToCart(product)">Agregar a la lista</ion-button>
+            </ion-card-content>
+          </ion-card-header>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+</div>

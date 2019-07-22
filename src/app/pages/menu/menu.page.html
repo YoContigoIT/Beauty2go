@@ -1,0 +1,27 @@
+<ion-split-pane *ngIf="loggedIn">
+  <ion-menu contentId="content">
+    <ion-header>
+      <div style="text-align: center;">
+        <img alt="logo" id="header_logo" style="padding-top: 14px;" height="200px" src="assets/img/b2g-horizontal.png">
+      </div>
+        
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false">
+          <!-- <ion-item style="cursor: pointer;" (click)="logoutClicked()">
+            Cerrar sesión
+          </ion-item>
+          <ion-item style="cursor: pointer;" (click)="privacyClicked()">
+            Privacidad
+          </ion-item> -->
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
+
+  <ion-router-outlet id="content" main></ion-router-outlet>
+
+</ion-split-pane>

@@ -1,0 +1,32 @@
+.logo {
+  width: 350px;
+  height: 10%;
+  align-self: center;
+  margin: 15px;
+  margin-bottom: -70px;
+  margin-top: -50px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.logo-holder {
+  text-align: center;
+}
+
+#container {
+  width: 100%;
+  margin-left:auto;
+  margin-right: auto;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 10px;
+}
+
+ion-content {
+  // --background: #fff url('/assets/img/marble.jpg') no-repeat center center / cover;
+  --ion-background-color: white;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  --background-size: contain;
+}

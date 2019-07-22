@@ -1,0 +1,13 @@
+ion-content {
+  // --background: #fff url('/assets/img/marble.jpg') no-repeat center center / cover;
+  --ion-background-color: black;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  --background-size: contain;
+}
+
+ion-item {
+  color: white;
+  --border-width: 0.6px;
+  --border-color: white;
+}

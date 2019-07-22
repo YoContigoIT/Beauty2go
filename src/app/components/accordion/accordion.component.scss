@@ -1,0 +1,35 @@
+ion-card {
+  position: relative;
+  text-align: left;
+  --background: #fff;
+}
+
+ion-badge {
+  color: #fff;
+  position: relative;
+  top: 0px;
+  right: 0px;
+  border-radius: 100%;
+}
+
+.category-block {
+  margin-bottom: 4px;
+}
+
+.category-banner {
+  border-left: 8px solid black;
+  background: var(--ion-color-light);
+  height: 40px;
+  padding: 10px;
+  font-weight: 500;
+}
+accordion {
+
+  .card-header{
+      color: #fff;
+  }
+  .card-content {
+      padding: 0px 16px; 
+      max-height: 0px;
+  }
+}

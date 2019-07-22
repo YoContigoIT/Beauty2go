@@ -1,0 +1,11 @@
+.rating {
+  position: absolute;
+  top: 50%;
+  left: 34%;
+  transform: translate(-50%, -50%) rotateY(180deg);
+  display: flex;
+}
+
+ion-icon {
+  font-size: 23px;
+}

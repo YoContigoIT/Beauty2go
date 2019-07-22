@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Nombre Completo</ion-label>
+      <ion-input [(ngModel)]="inputName" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-item>
+        <ion-label style="position: relative;">Género</ion-label>
+        <ion-select style="width: 150px;" [(ngModel)]="inputGender">
+          <ion-select-option value="M">Mujer</ion-select-option>
+          <ion-select-option value="H">Hombre</ion-select-option>
+          <ion-select-option value="O">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input [(ngModel)]="inputEmail" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="inputPassword" type="password"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label position="floating">Confirmar contraseña</ion-label>
+        <ion-input [(ngModel)]="inputPasswordConfirmation" type="password"></ion-input>
+      </ion-item>
+  </ion-list>
+  <ion-item>
+    <div class="form-check">
+      <input [(ngModel)]="inputConditionsChecked" type="checkbox" class="form-check-input">
+      <label class="form-check-label" for="exampleCheck1">  Acepto los <a (click)="termsClicked()">términos y condiciones</a></label>
+    </div>
+  </ion-item>
+  
+  <ion-button [disabled]="!inputConditionsChecked" (click)="tryRegister()" fill="solid" expand="block">Registrarse</ion-button>
+</ion-content>

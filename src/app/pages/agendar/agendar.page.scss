@@ -1,0 +1,39 @@
+.nota {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.mdc-icon-button.material-icons {
+  width: 40px;
+  height: 40px;
+}
+
+p {
+  font-size: 0.8em;
+  color: #d2d2d2;
+  font-style: italic;
+}
+
+ion-slides {
+  height: 100%;
+}
+
+ion-slide {
+  display: block;
+}
+
+ion-label, .select-text {
+  margin-left: 10px;
+}
+
+.invalid {
+  border: 1px solid #ea6153;
+}
+
+ion-content {
+  --overflow: hidden;
+}
+
+ion-item {
+  --ion-background-color: white;
+}

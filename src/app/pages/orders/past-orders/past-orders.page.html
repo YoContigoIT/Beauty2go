@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="home"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Mis órdenes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+  
+    <ion-content>
+  
+      <ion-card *ngIf="pastOrders.length < 1" justify-content-center align-items-center style="height: 50%"
+        class="ion-text-center">
+        <ion-card-header style="margin-top: 50px;">
+          <ion-icon size="large" name="today"></ion-icon>
+          <ion-card-subtitle style="font-size: 20px;"> No tienes órdenes pasadas</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+  
+      <ion-card *ngFor="let item of pastOrders">
+        <!-- <img src="./madison.jpg" /> -->
+        <ion-card-header>
+          <ion-card-subtitle>Fecha</ion-card-subtitle>
+          <ion-card-title>{{ item.order.datetime }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+  
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ul>
+                  <li *ngFor="let prod of item.order.products">
+                    {{prod.count}} X {{ prod.product.product_name }}
+                  </li>
+                </ul>
+              </ion-col>
+              <ion-col>
+                <ion-row>
+                  <ion-button (click)="getHelpClicked(item)">Obtener ayuda</ion-button><br/>
+                  <ion-label *ngIf="item.order.status === 'Completado'"><ion-icon size="large" color="success" name="checkmark" style="padding-right: 5px;"></ion-icon>Completado</ion-label>
+                  <ion-label *ngIf="item.order.status === 'Cancelado por cliente'"><ion-icon color="danger" name="close-circle"></ion-icon>Cancelado</ion-label>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+  
+        </ion-card-content>
+      </ion-card>
+  
+    </ion-content>

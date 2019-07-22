@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>Tu contacto y lugar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="timeline">
+    <form [formGroup]="formgroup">
+      <ion-item>
+        <ion-label position="floating">Nombre Completo</ion-label>
+        <ion-input type="text" required formControlName="name" [class.invalid]='!formgroup.controls.name.valid && formgroup.controls.name.dirty'></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formgroup.controls.name.valid  && formgroup.controls.name.dirty">
+          <p>Ingresa un nombre correcto.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">E-Mail</ion-label>
+        <ion-input required type="email" formControlName="email" required [class.invalid]='!formgroup.controls.email.valid && formgroup.controls.email.dirty'></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formgroup.controls.email.valid  && formgroup.controls.email.dirty">
+          <p>Ingresa un mail correcto.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Celular</ion-label>
+        <ion-input type="tel" pattern="tel" maxlength="10" (ionInput)="somethingTyped($event)" formControlName="cellphone" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Fecha y hora de cita</ion-label>
+          <ion-datetime required (ionChange)="updateDatetime($event)" displayFormat="DD/MM/YYYY HH:mm" [min]="getCurrentTime()" max="2029" hourValues="08,09,10,11,12,13,14,15,16,17,18,19,20,21,22" minuteValues="0,30" placeholder="DD MM AAAA HH:MM"></ion-datetime>
+      </ion-item>
+
+           <!-- // USE THIS IF THE COMPANY SHIP SERVICES: -->
+      <!-- <div *ngIf="companyHasDeliveries">
+        <ion-item>
+          <ion-label>Servicio a domicilio</ion-label>
+          <ion-toggle (ionChange)="shipToggleChanged()"></ion-toggle>
+        </ion-item>
+  
+        <div *ngIf="shipToAddress">
+          <ion-item>
+            <ion-label position="floating">Ingresa un domicilio</ion-label>
+            <ion-textarea placeholder="Calle, numero int/ext, colonia, ciudad, delegacion, estado, C.P" formControlName="address"></ion-textarea>
+          </ion-item>
+        </div>
+      </div> -->
+
+         <!-- // OTHERWISE FORCE IT TO ALWAYS DELIVER: -->
+      <div>
+        <ion-item>
+          <ion-label position="floating">Domicilio</ion-label>
+          <ion-textarea placeholder="Calle, número int/ext, colonia, delegación, estado, CP" formControlName="address"></ion-textarea>
+        </ion-item>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Notas (Opcional)</ion-label>
+        <ion-textarea [ngModelOptions]="{standalone: true}" [(ngModel)]="notes" placeholder="Déjanos una nota!"></ion-textarea>
+      </ion-item>
+
+      <div>
+        <ion-list>
+        
+          <ion-item>
+            <ion-label>Ciudad</ion-label>
+            <ion-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCity" placeholder="Selecciona una cuidad">
+              <ion-select-option value="CDMX">CDMX</ion-select-option>
+              <ion-select-option value="Guadalajara">Guadalajara</ion-select-option>
+              <ion-select-option value="León">León</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+        </ion-list>
+      </div>
+
+      <ion-button 
+        color="primary" 
+        expand="block" 
+        (click)="bookForm()">Siguiente</ion-button>
+    </form>
+  </div>
+</ion-content>
