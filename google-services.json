@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744583518604",
+    "firebase_url": "https://beautyapp-1560984291083.firebaseio.com",
+    "project_id": "beautyapp-1560984291083",
+    "storage_bucket": "beautyapp-1560984291083.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744583518604:android:0fb0ee0c22f58daa",
+        "android_client_info": {
+          "package_name": "io.yocontigo.oglam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744583518604-6mtm9v71cea90tm3notpn8o3ec0fc46c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmuqOpz9r8o7EJZrK4Bnz2CFEdtQH8ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744583518604-6mtm9v71cea90tm3notpn8o3ec0fc46c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "744583518604-n2saq2oakb46dtotvaa9gr0622im7h73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.beauty2go.beauty2go"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
