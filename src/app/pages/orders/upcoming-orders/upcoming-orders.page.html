@@ -23,13 +23,13 @@
         <ion-card-title>{{ item.order.datetime }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-  
+
         <ion-grid>
           <ion-row>
             <ion-col>
               <ul text-left>
                 <li *ngFor="let prod of item.order.products">
-                  {{prod.count}} X {{ prod.product.product_name }}
+                  {{ prod.count }} X {{ prod.product.product_name }}{{ prod.product.hasOwnProperty('provider') ? ', Atenderá: ' : '' }} {{ prod.product.hasOwnProperty('provider') ? prod.product.provider_name : '' }}
                 </li>
               </ul>
             </ion-col>

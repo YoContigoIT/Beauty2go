@@ -1,5 +1,7 @@
 {
   "name": "Beauty2Go",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

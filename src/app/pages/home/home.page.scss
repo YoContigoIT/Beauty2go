@@ -1,68 +1,17 @@
-.center-div {
-  // text-align: center;
-  width: 100%;
-  vertical-align: super;
-}
-
 .button-toolbar {
-  --background: transparent;
-  --ion-color-base: transparent !important;
+  text-align: center;
 }
 
 ion-button {
-  width: 100%
+  width: 90%
 }
 
 ion-content {
-  --overflow: hidden;
+  color:'dark';
 }
 
 .sidebar-header {
   text-align: center;
-}
-
-#header_logo {
-  border-radius: 45px;
-  padding-left: 20px;
-  padding-top: 14px;
-}
-
-// SIDEBAR
-#sidebarCollapse {
-  margin-top: 3px;
-  margin-left: 3px;
-  width: 40px;
-  height: 40px;
-  background: transparent;
-}
-
-#sidebarCollapse span {
-  width: 40%;
-  height: 2px;
-  margin: 0 auto;
-  display: block;
-  background: #555;
-  transition: all 0.3s cubic-bezier(0.810, -0.330, 0.345, 1.375);
-}
-
-#sidebarCollapse span:first-of-type {
-  /* rotate first one */
-  transform: rotate(45deg) translate(2px, 2px);
-}
-#sidebarCollapse span:nth-of-type(2) {
-  /* second one is not visible */
-  opacity: 0;
-}
-#sidebarCollapse span:last-of-type {
-  /* rotate third one */
-  transform: rotate(-45deg) translate(1px, -1px);
-}
-#sidebarCollapse.active span {
-  /* no rotation */
-  transform: none;
-  /* all bars are visible */
-  opacity: 1;
-  margin: 5px auto;
 }
 .wrapper {
   display: inherit;
@@ -72,55 +21,88 @@ ion-content {
 }
 
 #sidebar {
-  min-width: 250px;
-  max-width: 250px;
+  width: 100%;
+  height: 100%;
   background: rgb(0, 0, 0);
   color: #fff;
   transition: all 0.3s cubic-bezier(0.945, 0.020, 0.270, 0.665);
   transform-origin: center left; /* Set the transformed position of sidebar to center left side. */
 }
 
-#sidebar.active {
-  margin-left: -250px;
-  transform: rotateY(100deg); /* Rotate sidebar vertically by 100 degrees. */
+.sideBarButtons {
+  width: 90%;
 }
-@media (max-width: 768px) {
-  /* Reversing the behavior of the sidebar: 
-     it'll be rotated vertically and off canvas by default, 
-     collapsing in on toggle button click with removal of 
-     the vertical rotation.   */
-  #sidebar {
-      margin-left: -250px;
-      transform: rotateY(100deg);
-  }
-  #sidebar.active {
-      margin-left: 0;
-      transform: none;
-  }
 
-  /* Reversing the behavior of the bars: 
-     Removing the rotation from the first,
-     last bars and reappear the second bar on default state, 
-     and giving them a vertical margin */
-  #sidebarCollapse span:first-of-type,
-  #sidebarCollapse span:nth-of-type(2),
-  #sidebarCollapse span:last-of-type {
-      transform: none;
-      opacity: 1;
-      margin: 5px auto;
-  }
+#header_logo {
+  height: 80px;
+  width: 80px;
+  margin-top: 40px;
+  padding: 15px 0px 0px 20px;
+  background-color: white;
+  border-radius: 50px;
+}
 
-  /* Removing the vertical margin and make the first and last bars rotate again when the sidebar is open, hiding the second bar */
-  #sidebarCollapse.active span {
-      margin: 0 auto;
+#main-logo {
+  max-height: 550px;
+}
+
+.center-div {
+  text-align: center;
+}
+
+
+
+
+
+
+
+page-login-background-slider {
+  .scroll-content {
+    margin-top: 0 !important;
   }
-  #sidebarCollapse.active span:first-of-type {
-      transform: rotate(45deg) translate(2px, 2px);
+  .logo {
+    width: 70%;
+    height: auto;
+    padding-top: 9vh;
+    margin-bottom: 15vh;
   }
-  #sidebarCollapse.active span:nth-of-type(2) {
-      opacity: 0;
+  span {
+    color: white;
   }
-  #sidebarCollapse.active span:last-of-type {
-      transform: rotate(-45deg) translate(1px, -1px);
+  .slide-background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-color: transparent;
+  }
+  .slide-zoom {
+    background: rgba(32, 32, 32, 0.2) !important;
+    height: 100%;
+  }
+  ion-slides {
+    height: 100vh;
+  }
+  ion-item {
+    color: white !important;
+    padding-left: 10px !important;
+    margin-bottom: 10px;
+    background-color: transparent !important;
+    font-size: 0.9em;
+  }
+   ::-webkit-input-placeholder {
+    color: white !important;
+  }
+  .login-container {
+    color: white;
+    position: absolute;
+    top: 0;
+    padding: 10vw;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 2;
+  }
+  ion-button {
+    opacity: 0.8;
   }
 }

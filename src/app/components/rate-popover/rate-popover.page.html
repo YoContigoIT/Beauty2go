@@ -1,4 +1,41 @@
-<div class="bubble">
+<ion-content>
+  <ion-list>
+    <ion-card>
+      <ion-item>
+        <h3>Califica a tus B2G providers</h3>
+        <!-- <p>Corte de cabello</p> -->
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngFor="let product of passedOrder.order.products; index as i" justify-content-center align-items-center
+      style="height: 50%" class="ion-text-center">
+      <ion-card-header style="margin-top: 30px;">
+        <ion-card-title>{{ product.product.provider_name }}</ion-card-title>
+        <ion-card-subtitle>{{ product.product.product_name }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-icon (click)="updateRating(product, 1, i)" size="large" [name]="product.product.rating < 1 ? emptyStar : fullStar"></ion-icon>
+        <ion-icon (click)="updateRating(product, 2, i)" size="large" [name]="product.product.rating < 2 ? emptyStar : fullStar"></ion-icon>
+        <ion-icon (click)="updateRating(product, 3, i)" size="large" [name]="product.product.rating < 3 ? emptyStar : fullStar"></ion-icon>
+        <ion-icon (click)="updateRating(product, 4, i)" size="large" [name]="product.product.rating < 4 ? emptyStar : fullStar"></ion-icon>
+        <ion-icon (click)="updateRating(product, 5, i)" size="large" [name]="product.product.rating < 5 ? emptyStar : fullStar"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-list>
+  <ion-footer style="text-align: center;">
+      <ion-toolbar>
+        <ion-button (click)="rateAndFinishOrder()" [disabled]="missingRating" style="width: 90%;">Calificar</ion-button>
+      </ion-toolbar>
+      <ion-toolbar>
+        <ion-button (click)="closePopover()" fill="clear">Más tarde</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+</ion-content>
+
+
+
+<!-- <div class="bubble">
   <ion-list>
 
     <ion-item>Califica tu servicio:</ion-item>
@@ -25,4 +62,4 @@
     </ion-item>
 
   </ion-list>
-</div>
+</div> -->

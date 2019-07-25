@@ -1,3 +1,54 @@
+<ion-menu side="start" menuId="first">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <img alt="logo" id="header_logo"
+        src="assets/img/b2g-circular.png">
+      <ion-button *ngIf="authService.isLoggedIn" class="sideBarButtons" (click)="logoutClicked()" style="padding: 15px; height: 65px;" color="dark">Cerrar sesión</ion-button>
+      <ion-button *ngIf="!authService.isLoggedIn" class="sideBarButtons" (click)="navigateToLogin()" style="padding: 15px; height: 65px;" color="dark">Log in</ion-button>
+      <ion-button class="sideBarButtons" (click)="privacyClicked()" style="padding: 15px; height: 65px;" color="dark">Privacidad</ion-button>
+    </div>
+  </nav>
+
+</ion-menu>
+
+<div class="ion-page" main>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <!-- <ion-title>Home</ion-title> -->
+    </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+
+    <!-- <div style="text-align: center; max-width: 400px; min-width: 50px;"> -->
+    <div class="center-div">
+      <img id="main-logo" src="assets/img/b2g-horizontal.png">
+    </div>
+
+    <div>
+      <ion-toolbar *ngIf="true" class="button-toolbar">
+        <div class="center-div">
+          <ion-button color="dark" (click)="navigateToCategories()">Agenda tu cita!</ion-button>
+        </div>
+      </ion-toolbar>
+
+      <ion-toolbar class="button-toolbar">
+        <div class="center-div">
+          <ion-button *ngIf="this.authService.isLoggedIn" color="dark" (click)="navigateToOrders()">Ver mis citas</ion-button>
+        </div>
+      </ion-toolbar>
+    </div>
+
+  </ion-content>
+</div>
+
+
+
+
+
+
 <!-- <ion-menu side="start" menuId="first">
   <ion-header>
     <ion-toolbar color="primary">
@@ -29,16 +80,24 @@
   </ion-toolbar>
 </ion-header> -->
 
-<!-- SIDEBAR -->
-<div class="wrapper">
+
+
+
+
+
+
+
+
+<!-- SIDEBAR RORKINGGGG SHIT -->
+<!-- <div class="wrapper">
 
   <nav id="sidebar">
-    <!-- Sidebar Header -->
+    Sidebar Header
     <div class="sidebar-header">
       <img alt="logo" id="header_logo" style="margin-top: 40px; background-color: white;" height="80" width="80" src="assets/img/b2g-circular.png">
     </div>
 
-    <!-- Sidebar Links -->
+    Sidebar Links
     <ion-button (click)="logoutClicked()" style="padding: 15px; height: 65px;" color="dark">Cerrar sesión</ion-button>
     <ion-button (click)="privacyClicked()" style="padding: 15px; height: 65px;" color="dark">Privacidad</ion-button>
   </nav>
@@ -68,18 +127,13 @@
             <ion-button color="dark" (click)="navigateToOrders()">Ver mis citas</ion-button>
           </div>
         </ion-toolbar>
-        <!-- <ion-toolbar class="button-toolbar">
-          <ion-button style="width: 170px;" color="dark" (click)="logout()">Cerrar sesión</ion-button>
-        </ion-toolbar> -->
       </div>
     
     </ion-content>
-    
-
-    
+</div> -->
 
 
-</div>
+
 
 
 
@@ -89,7 +143,7 @@
 
 <!-- <ion-content class="padding"> -->
 
-  <!-- <div style="padding: 20px;">
+<!-- <div style="padding: 20px;">
     <ion-slides [options]="sliderConfig">
 
       <ion-slide *ngFor="let src of sliderImages">
@@ -98,7 +152,7 @@
     </ion-slides>
   </div> -->
 
-  <!-- <div style="text-align: center; max-width: 600px;">
+<!-- <div style="text-align: center; max-width: 600px;">
     <img src="assets/img/b2g-horizontal.png">
   </div>
 

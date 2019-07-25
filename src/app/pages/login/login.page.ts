@@ -34,6 +34,10 @@ export class LoginPage implements OnInit {
     });
   }
 
+  goToHome() {
+    this.router.navigate(['home']);
+  }
+
   goToRegisterWindow() {
     this.router.navigate(['register']);
   }

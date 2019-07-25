@@ -37,7 +37,8 @@ export class AgendarPage implements OnInit {
         name: ['', Validators.compose([
           Validators.required,
           Validators.maxLength(80),
-          Validators.pattern('[a-zA-Z ]*')])],
+          // Validators.pattern('[a-zA-Z ñÑ]*')])],
+          Validators.pattern('[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-]+')])],
         email: ['', Validators.compose([
           Validators.required,
           Validators.maxLength(80),

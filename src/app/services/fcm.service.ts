@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FirebaseOriginal } from '@ionic-native/firebase';
+import { Firebase } from '@ionic-native/firebase/ngx';
 import { Platform } from '@ionic/angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 
@@ -9,7 +9,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 export class FcmService {
 
   constructor(
-    public firebaseNative: FirebaseOriginal,
+    public firebaseNative: Firebase,
     public afirestore: AngularFirestore,
     private platform: Platform
   ) { }
@@ -34,7 +34,6 @@ export class FcmService {
 
   private saveTokenToFirestore(token: string) {
     if (!token) { return; }
-
     const usersRef = this.afirestore.collection('users');
     const userUid = JSON.parse(localStorage.getItem('user')).uid;
     return usersRef.doc(userUid).update({ token });

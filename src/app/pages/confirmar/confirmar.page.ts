@@ -69,7 +69,7 @@ export class ConfirmarPage implements OnInit {
     this.updateTotalAndItemsOnCart();
   }
 
-  getProductIdArray() {
+  getProductArray() {
     const arr = [];
     this.itemsOnCart.forEach(item => {
       arr.push(item);
@@ -86,7 +86,7 @@ export class ConfirmarPage implements OnInit {
       datetime: this.datetime,
       address: this.address,
       city: this.city,
-      products: this.getProductIdArray(),
+      products: this.getProductArray(),
       status: 'Nuevo',
       notes: this.notes,
       uid: usr.uid
