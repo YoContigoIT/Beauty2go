@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     private fireService: FirebaseService,
     private alertController: AlertController
   ) {
@@ -36,25 +36,26 @@ export class HomePage implements OnInit {
     // });
     if (!this.authService.isLoggedIn) {
       const guest = JSON.parse(localStorage.getItem('guest'));
+      console.log('guest init home', guest);
       if (guest === null) {
-        this.fireService.getCities().subscribe(snap => {
-          this.cities = [];
-          snap.forEach(city => {
-            // this.cities.push(city);
-            const cityObj = city as any;
-            this.cities.push({
-              name: cityObj.city_name,
-              type: 'radio',
-              label: cityObj.city_name,
-              value: cityObj.city_name
-            });
-          });
-          this.presentCityAlert();
-        });
+        localStorage.setItem('guest', JSON.stringify({ city: 'CDMX' }));
+        // this.fireService.getCities().subscribe(snap => {
+        //   this.cities = [];
+        //   snap.forEach(city => {
+        //     // this.cities.push(city);
+        //     const cityObj = city as any;
+        //     this.cities.push({
+        //       name: cityObj.city_name,
+        //       type: 'radio',
+        //       label: cityObj.city_name,
+        //       value: cityObj.city_name
+        //     });
+        //   });
+        //   this.presentCityAlert();
+        // });
       }
     }
   }
-
 
   async presentCityAlert() {
     const alert = await this.alertController.create({
@@ -79,13 +80,13 @@ export class HomePage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
 
   navigateToCategories() {
     const guest = JSON.parse(localStorage.getItem('guest'));
     if (!this.authService.isLoggedIn && guest === null) {
+      console.log('isnt logged in and guest is null');
       this.presentCityAlert();
       return;
     }

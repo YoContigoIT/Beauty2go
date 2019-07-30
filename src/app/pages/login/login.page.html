@@ -1,18 +1,18 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>Inicia sesión en B2G</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content padding>
+<ion-content padding id="content">
   <div class="logo-holder">
     <img class="logo" src="assets/img/b2g-horizontal.png">
   </div>
-  
+
   <br />
   <br />
 
-  <div>
+  <div id="form">
     <ion-list id="container">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
@@ -23,15 +23,19 @@
         <ion-input [(ngModel)]="inputPassword" type="password"></ion-input>
       </ion-item>
     </ion-list>
-  </div>
-  
-  <ion-button fill="solid" expand="block" color="dark" (click)="login()">Login</ion-button>
-  <ion-button (click)="goToRegisterWindow()" expand="block">Crea una cuenta</ion-button>
-  <!-- <ion-button expand="block">¿Quieres ser del equipo de Beauty2Go Pros?</ion-button> -->
-  <ion-button (click)="goToHome()" fill="clear" expand="block" style="margin-top: 20px;">Más tarde</ion-button>
-  <br/>
-  <div style="text-align: center;">
-    <!-- <p>¿Quieres ser del equipo de Beauty2Go Pros? <a href="#">aplica aquí</a></p> -->
+
+    <div class="centered">
+      <ion-button class="rounded-button" (click)="login()" [disabled]="inputPassword === '' || inputPassword === ''"
+        fill="solid" expand="block" color="dark">Login</ion-button>
+      <ion-button class="rounded-button" (click)="goToRegisterWindow()" expand="block">Crea una cuenta</ion-button>
+      <!-- <ion-button expand="block">¿Quieres ser del equipo de Beauty2Go Pros?</ion-button> -->
+      <ion-button (click)="goToHome()" fill="clear" expand="block" style="margin-top: 20px;">Más tarde</ion-button>
+    </div>
+
+    <br />
+    <div style="text-align: center;">
+      <!-- <p>¿Quieres ser del equipo de Beauty2Go Pros? <a href="#">aplica aquí</a></p> -->
+    </div>
   </div>
 
 </ion-content>

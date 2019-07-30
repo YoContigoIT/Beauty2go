@@ -34,6 +34,7 @@ export class AuthenticationService {
                 this.presentToast(msg);
               })
             ).subscribe();
+            localStorage.setItem('guest', null);
             localStorage.setItem('user', JSON.stringify(userInfo));
             router.navigate(['home']);
           }

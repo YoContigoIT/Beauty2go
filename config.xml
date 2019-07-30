@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- <widget id="com.beauty2go.beauty2go" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"> -->
-<widget id="io.yocontigo.oglam" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.beauty2go.beauty2go" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Beauty2Go</name>
-    <description>Surround yourself by Beaauty, wherever you are.</description>
+    <description>Surround yourself by Beauty, wherever you are.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
     <access origin="*" />

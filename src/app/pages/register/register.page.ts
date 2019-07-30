@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -18,6 +18,7 @@ export class RegisterPage implements OnInit {
   inputName = '';
   inputGender = '';
   inputCity = '';
+  loading;
 
   availableCities = [];
 
@@ -27,7 +28,8 @@ export class RegisterPage implements OnInit {
     private authService: AuthenticationService,
     private alertController: AlertController,
     private router: Router,
-    private fireService: FirebaseService) { }
+    private fireService: FirebaseService,
+    private loadingController: LoadingController) { }
 
   ngOnInit() {
     this.citiesSuscription = this.fireService.getCities().subscribe(data => {
@@ -35,7 +37,6 @@ export class RegisterPage implements OnInit {
       data.forEach(city => {
         this.availableCities.push(city);
       });
-      console.log(this.availableCities);
     });
   }
 
@@ -44,8 +45,6 @@ export class RegisterPage implements OnInit {
   }
 
   tryRegister() {
-    console.log(this.inputCity);
-
     if (this.inputEmail === '' || this.inputPassword === '' || this.inputPasswordConfirmation === ''
         || this.inputName === '') {
       this.presentAlert('No puede haber campos vacíos.', true);
@@ -67,11 +66,16 @@ export class RegisterPage implements OnInit {
       this.presentAlert('Selecciona una ciudad', true);
       return;
     }
-
-    this.authService.registerUser(this.inputEmail, this.inputPassword, this.inputName, this.inputGender, this.inputCity).then((result) => {
+    this.loadingController.create({ message: 'Cargando'}).then(overlay => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+    this.authService.registerUser(this.inputEmail, this.inputPassword, this.inputName, this.inputGender, this.inputCity).then(result => {
+      this.loading.dismiss();
       this.presentAlert('Usuario creado con éxito', false);
       this.router.navigate(['home']);
-    }).catch((error) => {
+    }).catch(error => {
+      this.loading.dismiss();
       this.presentAlert('Hubo un error tratando de crearte una cuenta', true, error.message);
     });
   }

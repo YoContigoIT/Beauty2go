@@ -12,11 +12,17 @@
   <div class="description-row centered">
     <ion-label class="description" position="floating">Estas por reservar en "Beauty 2 Go"</ion-label>
     <br />
-    <ion-label class="description" posittion="floating"> los siguientes servicios: <b></b></ion-label>
+    <ion-label class="description" > los siguientes servicios: <b></b></ion-label>
+    <br />
+    <ion-label class="eta"><ion-icon name="alarm"></ion-icon> Faltan {{ daysLeft }} días</ion-label>
   </div>
 
   <div class="description-row">
-    <ion-list show-delete="true">
+    <ion-label class="date-description">Para el día <b>{{ this.datetime | date : 'short' }}</b></ion-label>
+  </div>
+
+  <div class="description-row bordeada">
+    <ion-list lines="full" show-delete="true">
       <ion-item-sliding *ngFor="let item of itemsOnCart" lines="inset">
         <ion-item-options side="end">
           <ion-item-option (click)="RemoveItemFromCartEvent(item)" color="danger" expandable>
@@ -26,13 +32,12 @@
           </ion-item-option>
         </ion-item-options>
         <ion-item class="item-remove-animate item">
-          {{item.count}} x {{item.product.product_name}} - {{item.product.price | currency:'MXN':'symbol' }}
+          <p class="units">{{item.count}}</p>   x   {{item.product.product_name}}
           <ion-label slot="end" text-right>{{(item.product.price * item.count) | currency:'MXN':'symbol' }}</ion-label>
         </ion-item>
       </ion-item-sliding>
     </ion-list>
-   
-    <br />
+    
     <ion-list>
       <ion-item>
         Total: <span slot="end">{{ total | currency:'MXN':'symbol' }}</span>
@@ -40,28 +45,25 @@
     </ion-list>
   </div>
 
-  <div class="description-row">
-    <ion-label class="description">para el día <b>{{this.datetime}}</b></ion-label>
-  </div>
   <br />
   <div class="description-row centered">
     <ion-label class="description" position="floating"><u>Con tus datos:</u></ion-label>
   </div>
 
   <div class="description-row">
-    <ion-label class="description" position="floating">Nombre: <b>{{this.name}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">Nombre: <b>{{this.name}}</b></ion-label>
   </div>
   <div class="description-row">
-    <ion-label class="description" position="floating">Email: <b>{{this.email}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">Email: <b>{{this.email}}</b></ion-label>
   </div>
   <div class="description-row">
-    <ion-label class="description" position="floating">Teléfono: <b>{{this.cellphone}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">Teléfono: <b>{{this.cellphone}}</b></ion-label>
   </div>
   <div class="description-row">
-    <ion-label class="description" position="floating">Servicio a domicilio: <b>{{this.toShip === true ? 'SI' : 'NO'}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">Servicio a domicilio: <b>{{this.toShip === true ? 'SI' : 'NO'}}</b></ion-label>
   </div>
   <div *ngIf="toShip === true" class="description-row">
-    <ion-label class="description" position="floating">En: <b>{{this.address}}, {{this.city}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">En: <b>{{this.address}}, {{this.city}}</b></ion-label>
   </div>
 
   <ion-button 

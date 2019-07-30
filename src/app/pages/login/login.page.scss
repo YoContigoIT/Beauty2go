@@ -2,12 +2,10 @@
   width: 350px;
   height: 10%;
   align-self: center;
-  margin: 15px;
-  margin-bottom: -70px;
-  margin-top: -50px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
+  filter: brightness(0) invert(1);
 }
 
 .logo-holder {
@@ -23,10 +21,28 @@
   border-radius: 10px;
 }
 
-ion-content {
-  // --background: #fff url('/assets/img/marble.jpg') no-repeat center center / cover;
-  --ion-background-color: white;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  --background-size: contain;
+#form {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
 }
+
+.centered {
+  text-align: center;
+}
+
+.rounded-button {
+  --border-radius: 25px;
+}
+
+#content {
+  --background: url('../../../assets/img/login.png') center center;
+}
+// ion-content {
+//   // --background: #fff url('/assets/img/marble.jpg') no-repeat center center / cover;
+//   --ion-background-color: white;
+//   -webkit-background-size: contain;
+//   -moz-background-size: contain;
+//   --background-size: contain;
+// }

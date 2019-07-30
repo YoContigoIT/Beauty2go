@@ -1,5 +1,6 @@
 .button-toolbar {
   text-align: center;
+  --background: transparent;
 }
 
 ion-button {
@@ -34,26 +35,42 @@ ion-content {
 }
 
 #header_logo {
-  height: 80px;
-  width: 80px;
-  margin-top: 40px;
-  padding: 15px 0px 0px 20px;
+  height: 120px;
+  width: 120px;
+  margin-top: 27px;
+  padding: 6% 0px 0px 11%;
   background-color: white;
-  border-radius: 50px;
+  border-radius: 50%;
 }
 
 #main-logo {
-  max-height: 550px;
+  max-height: 460px;
+  filter: brightness(0) invert(1);
 }
 
 .center-div {
   text-align: center;
+  top: 10px;
 }
 
+#content {
+  // background-image: url('');
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  --background: url('../../../assets/img/home.png') center center;
 
+  // --background-repeat: no-repeat;
+  // --background-position: center;
+  // --background-size: cover;
+  // --background-atachment: fixed;
+}
 
-
-
+.button-holder {
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  right: 0;
+}
 
 
 page-login-background-slider {

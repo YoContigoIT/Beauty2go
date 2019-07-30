@@ -6,9 +6,9 @@
     <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
- 
-<ion-content padding>
-  <ion-list>
+
+<ion-content padding id="content">
+  <ion-list id="list">
     <ion-item>
       <ion-label position="floating">Nombre Completo</ion-label>
       <ion-input [(ngModel)]="inputName" type="text"></ion-input>
@@ -21,9 +21,9 @@
         <ion-select-option value="O">Otro</ion-select-option>
       </ion-select>
     </ion-item>
-      <ion-item>
-        <ion-label style="position: relative;">Ciudad</ion-label>
-        <ion-select style="width: 150px;" [(ngModel)]="inputCity">
+    <ion-item>
+      <ion-label style="position: relative;">Ciudad</ion-label>
+      <ion-select style="width: 150px;" [(ngModel)]="inputCity">
         <ion-select-option value="{{ city.city_name }}" *ngFor="let city of availableCities">
           {{ city.city_name }}
         </ion-select-option>
@@ -38,22 +38,30 @@
       <ion-input [(ngModel)]="inputPassword" type="password"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label position="floating">Confirmar contraseña</ion-label>
-        <ion-input [(ngModel)]="inputPasswordConfirmation" type="password"></ion-input>
-      </ion-item>
-  </ion-list>
-  <ion-item>
-    <div class="form-check">
-      <input [(ngModel)]="inputConditionsChecked" type="checkbox" class="form-check-input">
-      <label class="form-check-label" for="exampleCheck1"> He leído y acepto los <a href="https://beautyapp-1560984291083.firebaseapp.com/privacy">términos y condiciones</a></label>
-    </div>
-  </ion-item>
-  <ion-item>
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input [(ngModel)]="inputPasswordConfirmation" type="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <div class="form-check">
-        <input [(ngModel)]="inputPrivacyChecked" type="checkbox" class="form-check-input">
-        <label class="form-check-label" for="exampleCheck2">  He leído y acepto el <a href="https://beautyapp-1560984291083.firebaseapp.com/privacy">aviso de privacidad</a></label>
+        <input [(ngModel)]="inputConditionsChecked" type="checkbox" class="form-check-input">
+        <label class="form-check-label" for="exampleCheck1"> He leído y acepto los <a
+            href="https://beautyapp-1560984291083.firebaseapp.com/privacy">términos y condiciones</a></label>
       </div>
     </ion-item>
+    <ion-item>
+      <div class="form-check">
+        <input [(ngModel)]="inputPrivacyChecked" type="checkbox" class="form-check-input">
+        <label class="form-check-label" for="exampleCheck2"> He leído y acepto el <a
+            href="https://beautyapp-1560984291083.firebaseapp.com/privacy">aviso de privacidad</a></label>
+      </div>
+    </ion-item>
+  </ion-list>
   
-  <ion-button [disabled]="!inputPrivacyChecked || !inputConditionsChecked || inputEmail === '' || inputName === '' || inputPassword === '' || inputPasswordConfirmation === ''" (click)="tryRegister()" fill="solid" expand="block">Registrarse</ion-button>
+  <div id="button-bar">
+    <ion-button id="register-button" color="dark"
+    [disabled]="!inputPrivacyChecked || !inputConditionsChecked || inputEmail === '' || inputName === '' || inputPassword === '' || inputPasswordConfirmation === ''"
+    (click)="tryRegister()" fill="solid" expand="block">Registrarse</ion-button>
+  </div>
+
 </ion-content>

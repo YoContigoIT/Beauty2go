@@ -9,11 +9,23 @@ export class CartService {
   products;
 
   constructor(private afirestore: AngularFirestore) {
-    this.products = this.afirestore.collection('products', ref => ref.where('active', '==', true)).snapshotChanges();
+    let usr = JSON.parse(localStorage.getItem('user'));
+    if (usr === null) {
+      usr = JSON.parse(localStorage.getItem('guest'));
+    }
   }
 
   getCompanyProducts() {
-    return this.products;
+    let city = '';
+    let usr = JSON.parse(localStorage.getItem('user'));
+    if (usr === null) {
+      usr = JSON.parse(localStorage.getItem('guest'));
+      city = usr.city;
+    } else {
+      city = usr.info.city;
+    }
+    return this.afirestore.collection('products',
+      ref => ref.where('active', '==', true).where('city', '==', city)).snapshotChanges();
   }
 
   getCart() {

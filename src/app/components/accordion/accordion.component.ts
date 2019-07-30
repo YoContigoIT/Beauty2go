@@ -23,7 +23,7 @@ export class AccordionComponent implements OnInit {
   ngOnInit() {}
 
   toggleAccordion() {
-    this.accordionExpanded = !this.accordionExpanded;
+    // this.accordionExpanded = !this.accordionExpanded;
   }
 
   addToCart(product) {

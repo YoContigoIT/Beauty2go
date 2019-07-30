@@ -9,8 +9,8 @@ const routes: Routes = [
   { path: 'categorias', loadChildren: './pages/categorias/categorias.module#CategoriasPageModule' },
   // { path: 'menu', loadChildren: './pages/menu/menu.module#MenuPageModule', canActivate: [LoggedInGuard] },
   { path: 'home', loadChildren: './pages/home/home.module#HomePageModule' },
-  { path: 'agendar', loadChildren: './pages/agendar/agendar.module#AgendarPageModule', canActivate: [LoggedInGuard] },
-  { path: 'confirmar', loadChildren: './pages/confirmar/confirmar.module#ConfirmarPageModule', canActivate: [LoggedInGuard] },
+  { path: 'agendar', loadChildren: './pages/agendar/agendar.module#AgendarPageModule' },
+  { path: 'confirmar', loadChildren: './pages/confirmar/confirmar.module#ConfirmarPageModule' },
   { path: 'orders', loadChildren: './pages/orders/tabs/tabs.module#TabsPageModule', canActivate: [LoggedInGuard] },
   { path: 'get-help', loadChildren: './pages/get-help/get-help.module#GetHelpPageModule', canActivate: [LoggedInGuard] },
   { path: 'rate-popover', loadChildren: './components/rate-popover/rate-popover.module#RatePopoverPageModule' }

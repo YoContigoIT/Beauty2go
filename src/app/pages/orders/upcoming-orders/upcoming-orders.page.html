@@ -20,7 +20,7 @@
       <!-- <img src="./madison.jpg" /> -->
       <ion-card-header>
         <ion-card-subtitle>Fecha</ion-card-subtitle>
-        <ion-card-title>{{ item.order.datetime }}</ion-card-title>
+        <ion-card-title>{{ item.order.datetime.toDate() | date:'yyyy/MM/dd HH:mm' }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
 

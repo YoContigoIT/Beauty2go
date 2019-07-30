@@ -17,11 +17,18 @@ export class AgendarPage implements OnInit {
   address: AbstractControl;
   notes;
   selectedDate;
+  selectedTime;
+  auxSelectedTime;
   formattedDatetime;
   phoneAux = '';
   selectedCity = '';
+  selectedCellphone = '';
+
+  month;
+  minutes;
 
   dateWasSelected = false;
+  timeWasSelected = false;
   shipToAddress = false;
 
   constructor(
@@ -46,9 +53,9 @@ export class AgendarPage implements OnInit {
           Validators.pattern('[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')
         ]
         )],
-        cellphone: ['', Validators.compose([
-          Validators.required
-        ])],
+        // cellphone: ['', Validators.compose([
+        //   Validators.pattern('^[0-9]*$')
+        // ])],
         address: ['', Validators.compose([
           Validators.minLength(4)
         ])]
@@ -62,18 +69,35 @@ export class AgendarPage implements OnInit {
   ngOnInit() {
   }
 
-  updateDatetime($event) {
+  // updateDatetime($event) {
+  //   this.dateWasSelected = true;
+  //   this.selectedDate = new Date($event.detail.value);
+  //   // format leading characters.. I want it to always have 2 chars
+  //   let minutes = this.selectedDate.getMinutes().toString();
+  //   minutes = this.convertoToTwoDigits(minutes);
+
+  //   let month = (+this.selectedDate.getMonth() + 1).toString();
+  //   month = this.convertoToTwoDigits(month);
+
+  //   this.formattedDatetime =
+  //     `${this.selectedDate.getFullYear()}/${month}/${this.selectedDate.getDate()} ${this.selectedDate.getHours()}:${minutes}`;
+  // }
+
+  updateDate(event) {
     this.dateWasSelected = true;
-    this.selectedDate = new Date($event.detail.value);
-    // format leading characters.. I want it to always have 2 chars
-    let minutes = this.selectedDate.getMinutes().toString();
-    minutes = this.convertoToTwoDigits(minutes);
+    this.selectedDate = new Date(event.detail.value);
+    this.month = (+this.selectedDate.getMonth() + 1).toString();
+    this.month = this.convertoToTwoDigits(this.month);
+    this.selectedDate = `${this.selectedDate.getFullYear()}-${this.month}-${this.selectedDate.getDate()}`;
+  }
 
-    let month = (+this.selectedDate.getMonth() + 1).toString();
-    month = this.convertoToTwoDigits(month);
-
-    this.formattedDatetime =
-      `${this.selectedDate.getFullYear()}/${month}/${this.selectedDate.getDate()} ${this.selectedDate.getHours()}:${minutes}`;
+  updateTime(event) {
+    this.timeWasSelected = true;
+    this.selectedTime = new Date(event.detail.value);
+    this.minutes = this.selectedTime.getMinutes().toString();
+    this.minutes = this.convertoToTwoDigits(this.minutes);
+    this.auxSelectedTime = `${this.selectedTime.getHours() + 5}:${this.minutes}:00`;
+    this.selectedTime = `${this.selectedTime.getHours()}:${this.minutes}:00`;
   }
 
   getCurrentTime() {
@@ -100,18 +124,20 @@ export class AgendarPage implements OnInit {
       this.presentAlert('email');
       return;
     }
-    if (this.isEmptyString(this.cellphone.value)) {
+    // if (this.isEmptyString(this.cellphone.value)) {
+    if (this.isEmptyString(this.selectedCellphone)) {
       this.presentAlert('telefono');
       return;
     }
-    if (!this.dateWasSelected) {
-      this.presentAlert('fecha');
+    if (!this.dateWasSelected || !this.timeWasSelected) {
+      this.presentAlert('fecha y hora');
       return;
     }
     // check if selected date is at least 3 hours ahead
     const THREE_HOURS = 3 * (60 * 60 * 1000);
-    if ((this.selectedDate - Number(new Date())) < (THREE_HOURS)) {
-      this.dateWasSelected = false;
+    const mergedDate = new Date(this.selectedDate + 'T' + this.auxSelectedTime);
+    if ((Number(mergedDate) - Number(new Date())) < (THREE_HOURS)) {
+      this.timeWasSelected = false;
       this.presentNotEnoughTimeAlert();
       return;
     }
@@ -123,14 +149,15 @@ export class AgendarPage implements OnInit {
     this.router.navigate(['/confirmar'], { queryParams:
       { name: this.name.value,
         email: this.email.value,
-        cellphone: this.cellphone.value,
+        // cellphone: this.cellphone.value,
+        cellphone: this.selectedCellphone,
         service: this.service,
-        datetime: this.formattedDatetime,
+        datetime: mergedDate.toString(),
         shipToAddress: true,
         // shipToAddress: this.shipToAddress,
         address: this.address.value,
         city: this.selectedCity,
-        notes: this.notes
+        notes: this.notes,
       }
     });
   }
@@ -150,7 +177,8 @@ export class AgendarPage implements OnInit {
       return;
     }
     if (!this.isNumeric(typed)) {
-      this.cellphone.setValue(this.phoneAux);
+      // this.cellphone.setValue(this.phoneAux);
+      this.selectedCellphone = this.phoneAux;
     }
   }
 
@@ -166,7 +194,7 @@ export class AgendarPage implements OnInit {
   }
 
   private async presentAlert(kind: string) {
-    const msg = (kind === 'fecha' || kind === 'ciudad') ? `Por favor selecciona una ${kind}` : `Por favor ingresa un ${kind}`;
+    const msg = (kind === 'fecha y hora' || kind === 'ciudad') ? `Por favor selecciona una ${kind}` : `Por favor ingresa un ${kind}`;
 
     const alert = await this.alertController.create({
       header: msg,

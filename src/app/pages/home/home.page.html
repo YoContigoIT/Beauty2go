@@ -15,22 +15,22 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
+        <ion-menu-button color="dark"></ion-menu-button>
       </ion-buttons>
       <!-- <ion-title>Home</ion-title> -->
     </ion-toolbar>
   </ion-header>
-  <ion-content padding>
+  <ion-content padding id="content">
 
     <!-- <div style="text-align: center; max-width: 400px; min-width: 50px;"> -->
     <div class="center-div">
       <img id="main-logo" src="assets/img/b2g-horizontal.png">
     </div>
 
-    <div>
+    <div class="button-holder">
       <ion-toolbar *ngIf="true" class="button-toolbar">
         <div class="center-div">
-          <ion-button color="dark" (click)="navigateToCategories()">Agenda tu cita!</ion-button>
+          <ion-button color="dark" (click)="navigateToCategories()">¡Agenda tu cita!</ion-button>
         </div>
       </ion-toolbar>
 

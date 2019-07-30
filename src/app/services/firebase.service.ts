@@ -32,7 +32,8 @@ export class FirebaseService {
             order_id: orderId,
             products: prod,
             product_id: prod.id,
-            job_status: 'Nuevo'
+            job_status: 'Nuevo',
+            paid: false
           };
           this.addJob(job);
         });
@@ -75,7 +76,6 @@ export class FirebaseService {
 
   addJob(job) {
     this.aFirestore.collection('jobs').add(job);
-
     // tslint:disable-next-line:no-shadowed-variable
     // return new Promise((resolve, reject) => {
     //   // tslint:disable-next-line:prefer-for-of
@@ -88,7 +88,6 @@ export class FirebaseService {
     //       reject(err);
     //     });
     //   }
-
     // });
   }
 
@@ -108,7 +107,7 @@ export class FirebaseService {
     const user = JSON.parse(localStorage.getItem('user'));
     return this.aFirestore.collection('orders', ref => ref
       .where('uid', '==', user.uid)
-      .where('status', '<', 'D')
+      .where('status', '<', 'D').orderBy('status').orderBy('datetime')
     ).snapshotChanges();
   }
 
@@ -145,7 +144,9 @@ export class FirebaseService {
         name: realName,
         gender: realGender,
         role: 'client',
-        city: realCity
+        city: realCity,
+        active: true,
+        member_since: new Date()
       });
   }
 
@@ -160,7 +161,7 @@ export class FirebaseService {
 
   // CITIES
   getCities() {
-    return this.aFirestore.collection('cities', ref => ref.orderBy('city_name')).valueChanges();
+    return this.aFirestore.collection('cities', ref => ref.where('active', '==', true).orderBy('city_name')).valueChanges();
   }
 
 }

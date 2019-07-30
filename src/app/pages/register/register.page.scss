@@ -5,3 +5,26 @@ ion-content {
   -moz-background-size: contain;
   --background-size: contain;
 }
+
+#content {
+  --background: url('../../../assets/img/register.png') center center;
+}
+
+#list {
+  border-radius: 25px;
+}
+ion-item {
+  border-radius: 25px;
+}
+
+#button-bar {
+  text-align: center;
+  width: 90%;
+  position: fixed;
+  bottom: 10px;
+  --background: transparent;
+}
+
+#register-button {
+  --border-radius: 25px;
+}

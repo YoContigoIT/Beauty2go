@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-confirmar',
@@ -10,6 +11,8 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./confirmar.page.scss'],
 })
 export class ConfirmarPage implements OnInit {
+  private loading;
+
   service: string;
   email: string;
   cellphone: string;
@@ -22,6 +25,8 @@ export class ConfirmarPage implements OnInit {
   address: string;
   city: string;
 
+  daysLeft;
+
   itemsOnCart = [];
 
   constructor(
@@ -29,7 +34,9 @@ export class ConfirmarPage implements OnInit {
     private route: ActivatedRoute,
     public cartService: CartService,
     private firebaseService: FirebaseService,
-    public alertController: AlertController
+    private authService: AuthenticationService,
+    public alertController: AlertController,
+    private loadingController: LoadingController
   ) {
     this.route.queryParams.subscribe(params => {
       this.email = params.email;
@@ -40,11 +47,20 @@ export class ConfirmarPage implements OnInit {
       this.toShip = Boolean(params.shipToAddress);
       this.city = params.city;
       this.notes = params.notes;
+      this.daysLeft = this.daysBetween();
     });
   }
 
   ngOnInit() {
     this.updateTotalAndItemsOnCart();
+  }
+
+  daysBetween() {
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const firstDate = new Date();
+    const secondDate = new Date(this.datetime);
+
+    return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
   }
 
   updateTotalAndItemsOnCart() {
@@ -78,25 +94,40 @@ export class ConfirmarPage implements OnInit {
   }
 
   CreateRecord() {
+    if (!this.authService.isLoggedIn) {
+      this.showLoginAlert();
+      return;
+    }
+
+    this.loadingController.create({ message: 'Reservando'}).then(overlay => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+
     const usr = JSON.parse(localStorage.getItem('user'));
     const record = {
       name: this.name,
       email: this.email,
       phone: this.cellphone,
-      datetime: this.datetime,
+      datetime: new Date(this.datetime),
       address: this.address,
       city: this.city,
       products: this.getProductArray(),
       status: 'Nuevo',
       notes: this.notes,
-      uid: usr.uid
+      uid: usr.uid,
+      create_date: new Date(),
+      gender: usr.info.gender
     };
 
     this.firebaseService.create_NewOrder(record).then(resp => {
+      this.loading.dismiss();
+      this.loading = null;
       this.presentSuccessAlert();
       this.cartService.resetCart();
       this.router.navigate(['home']);
     }).catch(error => {
+      this.loading.dismiss();
       console.log(error);
       this.presentErrorAlert();
     });
@@ -107,6 +138,27 @@ export class ConfirmarPage implements OnInit {
       header: 'Gracias por reservar en Beauty2Go 😀',
       message : 'Espera una llamada de confirmacion...',
       buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  async showLoginAlert() {
+    const alert = await this.alertController.create({
+      header: 'Oops',
+      message: 'Necesitas iniciar sesión para agendar',
+      buttons: [{
+        text: 'Ahora no',
+        role: 'cancel',
+        handler: () => {
+        }
+      },
+      {
+        text: 'Ingresar',
+        cssClass: 'secondary',
+        handler: () => {
+          this.router.navigate(['login']);
+        }
+      }]
     });
     await alert.present();
   }

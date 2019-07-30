@@ -2,6 +2,22 @@
   margin: 15px;
 }
 
+.units {
+  margin: 3px;
+  border: 1px solid gray;
+  min-width: 20px;
+  text-align: center;
+}
+
+.bordeada {
+  border: 2px solid black;
+  border-radius: 9px;
+}
+
+ion-list {
+  border-radius: 9px;
+}
+
 .centered {
   text-align: center;
 }
@@ -12,5 +28,20 @@
 }
 
 .description {
-  font-size: 20px;
+  font-size: 1.22em;
+  font-style: bold;
+}
+
+.date-description {
+  font-size: 1em;
+  font-style: bold;
+}
+
+.personal-description {
+  font-size: 1em;
+}
+
+.eta {
+  font-size: 1em;
+  color: gray;
 }
