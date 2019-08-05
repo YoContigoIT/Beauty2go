@@ -6,9 +6,7 @@
       <ion-title>Mis órdenes</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
-  
-    <ion-content>
+    <ion-content padding id="content">
   
       <ion-card *ngIf="pastOrders.length < 1" justify-content-center align-items-center style="height: 50%"
         class="ion-text-center">
@@ -22,28 +20,33 @@
         <!-- <img src="./madison.jpg" /> -->
         <ion-card-header>
           <ion-card-subtitle>Fecha</ion-card-subtitle>
-          <ion-card-title>{{ item.order.datetime }}</ion-card-title>
+          <ion-card-title>{{ item.order.datetime.toDate() | date:'yyyy/MM/dd HH:mm' }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-  
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ul>
-                  <li *ngFor="let prod of item.order.products">
-                    {{prod.count}} X {{ prod.product.product_name }}
-                  </li>
-                </ul>
-              </ion-col>
-              <ion-col>
+
+              <ion-grid>
                 <ion-row>
-                  <ion-button (click)="getHelpClicked(item)">Obtener ayuda</ion-button><br/>
-                  <ion-label *ngIf="item.order.status === 'Completado'"><ion-icon size="large" color="success" name="checkmark" style="padding-right: 5px;"></ion-icon>Completado</ion-label>
-                  <ion-label *ngIf="item.order.status === 'Cancelado por cliente'"><ion-icon color="danger" name="close-circle"></ion-icon>Cancelado</ion-label>
+                    <ul>
+                        <li *ngFor="let prod of item.order.products">
+                          {{prod.count}} X {{ prod.product.product_name }}
+                        </li>
+                      </ul>
                 </ion-row>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+                <ion-row>
+                  <ion-button class="row-label" (click)="getHelpClicked(item)" color="dark">Obtener ayuda</ion-button><br/>
+                </ion-row>
+                <ion-row>
+                  <ion-item *ngIf="item.order.status === 'Completado'" class="row-label">
+                    <ion-icon size="large" color="success" name="checkmark"></ion-icon>
+                    <span class="text"> Servicio Completado</span>
+                  </ion-item>
+
+                  <ion-item *ngIf="item.order.status === 'Cancelado por cliente'" class="row-label">
+                    <ion-icon color="danger" name="close-circle"></ion-icon>
+                    <span class="text"> Cancelado</span>
+                  </ion-item>
+                </ion-row>
+              </ion-grid>
   
         </ion-card-content>
       </ion-card>

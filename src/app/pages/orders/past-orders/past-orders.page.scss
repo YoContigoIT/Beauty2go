@@ -1,11 +1,13 @@
-ion-content {
-  // --background: #fff url('/assets/img/marble.jpg') no-repeat center center / cover;
-  --ion-background-color: white;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  --background-size: contain;
-}
-
 ion-card {
   border-top: 3px solid black;
+  --background: white;
+}
+
+#content {
+  --background: url('/../../../assets/img/orders.png') center center;
+}
+
+.row-label {
+  text-align: center;
+  width: 100%;
 }

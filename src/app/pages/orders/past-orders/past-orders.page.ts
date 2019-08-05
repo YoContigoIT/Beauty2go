@@ -8,29 +8,25 @@ import { FirebaseService } from 'src/app/services/firebase.service';
   styleUrls: ['./past-orders.page.scss'],
 })
 export class PastOrdersPage implements OnInit {
+  pastOrdersAux = [];
   pastOrders = [];
 
   constructor(private firebase: FirebaseService, private router: Router) { }
 
   ngOnInit() {
     this.firebase.getPastOrders().subscribe(snapshot => {
-      this.pastOrders = [];
+      this.pastOrdersAux = [];
       snapshot.forEach(element => {
-        this.pastOrders.push(
+        this.pastOrdersAux.push(
           {
             id: element.payload.doc.id,
             order: element.payload.doc.data()
           }
         );
       });
-      this.sortOrders();
+      this.pastOrders = this.pastOrdersAux;
+      this.pastOrdersAux = [];
     });
-  }
-
-  sortOrders() {
-    this.pastOrders = this.pastOrders.sort((a, b) =>
-      (a.order.datetime > b.order.datetime) ? 1 : -1
-    );
   }
 
   getHelpClicked(order) {

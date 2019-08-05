@@ -1,51 +1,52 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="home"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Mis órdenes</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-  
-    <ion-card *ngIf="upcomingOrders.length < 1" justify-content-center align-items-center style="height: 50%"
-      class="ion-text-center">
-      <ion-card-header style="margin-top: 50px;">
-        <ion-icon size="large" name="today"></ion-icon>
-        <ion-card-subtitle style="font-size: 20px;"> No tienes órdenes agendadas</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-  
-    <ion-card *ngFor="let item of upcomingOrders">
-      <!-- <img src="./madison.jpg" /> -->
-      <ion-card-header>
-        <ion-card-subtitle>Fecha</ion-card-subtitle>
-        <ion-card-title>{{ item.order.datetime.toDate() | date:'yyyy/MM/dd HH:mm' }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis órdenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding id="content">
 
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ul text-left>
-                <li *ngFor="let prod of item.order.products">
-                  {{ prod.count }} X {{ prod.product.product_name }}{{ prod.product.hasOwnProperty('provider') ? ', Atenderá: ' : '' }} {{ prod.product.hasOwnProperty('provider') ? prod.product.provider_name : '' }}
-                </li>
-              </ul>
-            </ion-col>
-            <ion-col>
-              <ion-row>
-                <ion-button (click)="openPopover($event, item)" color="success">
-                  <ion-icon size="large" name="checkmark" style="padding-right: 5px;">
-                  </ion-icon>Terminar
-                </ion-button>
-                <ion-button (click)="getHelpClicked(item)">Obtener ayuda</ion-button>
-  
-              </ion-row>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-  
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
+  <ion-card *ngIf="upcomingOrders.length < 1" justify-content-center align-items-center style="height: 50%"
+    class="ion-text-center">
+    <ion-card-header style="margin-top: 50px;">
+      <ion-icon size="large" name="today"></ion-icon>
+      <ion-card-subtitle style="font-size: 20px;"> No tienes órdenes agendadas</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card *ngFor="let item of upcomingOrders">
+    <!-- <img src="./madison.jpg" /> -->
+    <ion-card-header>
+      <ion-card-subtitle>Fecha</ion-card-subtitle>
+      <ion-card-title>{{ item.order.datetime.toDate() | date:'yyyy/MM/dd HH:mm' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      
+      <ion-grid>
+        <ion-row>
+          <ul text-left>
+
+            <li *ngFor="let prod of item.order.products">
+              {{ prod.count }} X {{ prod.product.product_name }}
+              <br/>
+              <p *ngIf="prod.product.hasOwnProperty('provider')"> Atenderá: {{ prod.product.provider_name }}</p>
+            </li>
+
+          </ul>
+        </ion-row>
+        <ion-row>
+          <ion-button class="row-button" (click)="openPopover($event, item)" color="pinky">
+            <ion-icon size="large" name="checkmark" style="padding-right: 5px;">
+            </ion-icon>Terminar
+          </ion-button>
+        </ion-row>
+        <ion-row>
+          <ion-button (click)="getHelpClicked(item)" color="dark" class="row-button">Obtener ayuda</ion-button>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

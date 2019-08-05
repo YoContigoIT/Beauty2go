@@ -28,7 +28,7 @@ export class UpcomingOrdersPage implements OnInit {
         });
       });
       // this.addJobInfo();
-      this.sortOrders();
+      // this.sortOrders();
       this.assignProviderNames();
     });
   }
@@ -64,11 +64,11 @@ export class UpcomingOrdersPage implements OnInit {
   //   console.log('completed :)', this.upcomingOrders);
   // }
 
-  sortOrders() {
-    this.upcomingOrders = this.upcomingOrders.sort((a, b) =>
-      (a.order.datetime > b.order.datetime) ? 1 : -1
-    );
-  }
+  // sortOrders() {
+  //   this.upcomingOrders = this.upcomingOrders.sort((a, b) =>
+  //     (a.order.datetime > b.order.datetime) ? 1 : -1
+  //   );
+  // }
 
   getHelpClicked(order) {
     this.router.navigate(['get-help'], { queryParams: {
