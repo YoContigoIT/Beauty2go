@@ -1,6 +1,16 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+/** pinky **/
+.ion-color-pinky {
+  --ion-color-base: #C1888C;
+  --ion-color-base-rgb: 193, 136, 140;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: rgb(150, 105, 108);
+  --ion-color-tint: rgb(223, 159, 163);
+}
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
