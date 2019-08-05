@@ -30,13 +30,13 @@
     <div class="button-holder">
       <ion-toolbar *ngIf="true" class="button-toolbar">
         <div class="center-div">
-          <ion-button color="dark" (click)="navigateToCategories()">¡Agenda tu cita!</ion-button>
+          <ion-button color="dark" (click)="navigateToCategories()" class="rounded-button">¡Agenda tu cita!</ion-button>
         </div>
       </ion-toolbar>
 
       <ion-toolbar class="button-toolbar">
         <div class="center-div">
-          <ion-button *ngIf="this.authService.isLoggedIn" color="dark" (click)="navigateToOrders()">Ver mis citas</ion-button>
+          <ion-button *ngIf="this.authService.isLoggedIn" (click)="navigateToOrders()" color="dark" class="rounded-button">Ver mis citas</ion-button>
         </div>
       </ion-toolbar>
     </div>

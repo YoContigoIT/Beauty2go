@@ -17,12 +17,23 @@ ion-badge {
 }
 
 .category-banner {
+  border-radius: 7px;
   border-left: 8px solid black;
   background: var(--ion-color-light);
   height: 40px;
   padding: 10px;
   font-weight: 500;
 }
+
+.category-banner-dark {
+  border-radius: 7px;
+  border-left: 8px solid black;
+  background: var(--ion-color-medium);
+  height: 40px;
+  padding: 10px;
+  font-weight: 500;
+}
+
 accordion {
 
   .card-header{
@@ -32,10 +43,13 @@ accordion {
       padding: 0px 16px; 
       max-height: 0px;
   }
-
-  
 }
 
 .add-to-cart-button {
   font-size: 13px;
+  --border-radius: 25px;
+}
+
+.added {
+  --background: gray;
 }

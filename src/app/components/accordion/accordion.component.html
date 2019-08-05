@@ -5,7 +5,7 @@
 </ion-card> -->
 
 <div class="category-block">
-  <ion-row no-padding class="category-banner">
+  <ion-row no-padding [ngClass]="accordionExpanded ? 'category-banner' : 'category-banner-dark'">
     <ion-col text-left button tappable align-self-center (click)="toggleAccordion()">
       {{ category.category_name }}
     </ion-col>
@@ -20,9 +20,9 @@
               {{ product.product.product_name }}
             </ion-card-title>
             <ion-card-content>
-              <img src="{{product.product.img_src}}">
-              <ion-label >{{ product.product.price | currency:'MXN':'symbol' }}</ion-label>
-              <ion-button class="add-to-cart-button" [disabled]="alreadyOnCart(product)" expand="full" (click)="addToCart(product)">Agregar</ion-button>
+              <img src="{{ product.product.img_src }}">
+              <ion-label>{{ product.product.price | currency:'MXN':'symbol' }}</ion-label>
+              <ion-button class="add-to-cart-button" color="secondary" expand="full" (click)="addToCart(product)">{{ alreadyOnCart(product) ? 'Quitar' : 'Agregar' }}</ion-button>  <!--  [disabled]="alreadyOnCart(product)" -->
             </ion-card-content>
           </ion-card-header>
         </ion-card>

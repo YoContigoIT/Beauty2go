@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart.service';
   styleUrls: ['./accordion.component.scss'],
 })
 export class AccordionComponent implements OnInit {
+
   accordionExpanded = true;
   @ViewChild('cc') cardContent: any;
   // tslint:disable-next-line:no-input-rename
@@ -23,11 +24,15 @@ export class AccordionComponent implements OnInit {
   ngOnInit() {}
 
   toggleAccordion() {
-    // this.accordionExpanded = !this.accordionExpanded;
+    this.accordionExpanded = !this.accordionExpanded;
   }
 
   addToCart(product) {
-    this.cartService.addItemToCart(product);
+    if (this.alreadyOnCart(product)) {
+      this.cartService.removeItemFromCart(product);
+    } else {
+      this.cartService.addItemToCart(product);
+    }
   }
 
   alreadyOnCart(product) {

@@ -3,6 +3,10 @@
   --background: transparent;
 }
 
+.rounded-button {
+  --border-radius: 25px;
+}
+
 ion-button {
   width: 90%
 }

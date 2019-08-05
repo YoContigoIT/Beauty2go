@@ -76,9 +76,7 @@ export class CategoriasPage implements OnInit {
 
   openCart() {
     if (!this.authService.isLoggedIn) {
-
     }
-
     if (this.cart.length > 0) { this.router.navigate(['/agendar']); }
   }
 
