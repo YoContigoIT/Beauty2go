@@ -36,7 +36,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label position="floating">Fecha</ion-label>
-        <ion-datetime required (ionChange)="updateDate($event)" displayFormat="DD/MM/YYYY" [min]="getCurrentTime()" max="2029" hourValues="08,09,10,11,12,13,14,15,16,17,18,19,20,21,22" minuteValues="0,30" placeholder="DD MM AAAA"></ion-datetime>
+        <ion-datetime required (ionChange)="updateDate($event)" displayFormat="DD/MM/YYYY" [min]="getCurrentTime()" max="2030" hourValues="08,09,10,11,12,13,14,15,16,17,18,19,20,21,22" minuteValues="0,30" placeholder="DD MM AAAA"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Hora de cita</ion-label>
@@ -68,7 +68,7 @@
 
       <ion-item>
         <ion-label position="floating">Notas (Opcional)</ion-label>
-        <ion-textarea [ngModelOptions]="{standalone: true}" [(ngModel)]="notes" placeholder="Déjanos una nota!"></ion-textarea>
+        <ion-textarea [ngModelOptions]="{standalone: true}" [(ngModel)]="notes" placeholder="Nos ayudarías mucho si nos dices qué colores quieres u otras indicaciones 😉"></ion-textarea>
       </ion-item>
 
       <div>
@@ -77,9 +77,7 @@
           <ion-item>
             <ion-label>Ciudad</ion-label>
             <ion-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCity" placeholder="Selecciona una cuidad">
-              <ion-select-option value="CDMX">CDMX</ion-select-option>
-              <ion-select-option value="Guadalajara">Guadalajara</ion-select-option>
-              <ion-select-option value="León">León</ion-select-option>
+              <ion-select-option value="{{ selectedCity }}">{{ selectedCity }}</ion-select-option>
             </ion-select>
           </ion-item>
         
@@ -87,7 +85,7 @@
       </div>
 
       <ion-button 
-        color="primary" 
+        color="primary"
         expand="block" 
         (click)="bookForm()">Siguiente</ion-button>
     </form>

@@ -18,9 +18,33 @@ export class FirebaseService {
   }
 
   // ORDERS
-  async create_NewOrder(record) {
+  create_NewOrder(record) {
+    // const usr = JSON.parse(localStorage.getItem('user'));
+    // return this.addOrder(record).then(res => {
+    //   const promiseArray = [];
+    //   const orderId = res.id;
+    //   record.products.forEach(prod => {
+    //     const job = {
+    //       appointment_date: record.datetime,
+    //       city: record.city,
+    //       client_id: usr.uid,
+    //       order_id: orderId,
+    //       products: prod,
+    //       product_id: prod.id,
+    //       job_status: 'Nuevo',
+    //       paid: false
+    //     };
+    //     this.addJob(job);
+    //   });
+    //   // return Promise.all(promiseArray);
+    // }).catch(reason => {
+    //   console.log(reason);
+    //   return;
+    // });
+
     // tslint:disable-next-line:no-shadowed-variable
     return new Promise((resolve, reject) => {
+      const promiseArray = [];
       const usr = JSON.parse(localStorage.getItem('user'));
       this.addOrder(record).then(res => {
         const orderId = res.id;
@@ -35,9 +59,14 @@ export class FirebaseService {
             job_status: 'Nuevo',
             paid: false
           };
-          this.addJob(job);
+          console.log('job: ', JSON.stringify(job));
+          promiseArray.push(this.addJob(job));
         });
-        resolve();
+        Promise.all(promiseArray).then(() => {
+          resolve();
+        }).catch(e => {
+          reject(e);
+        });
       }).catch(err => {
         reject(err);
       });
@@ -75,7 +104,7 @@ export class FirebaseService {
   }
 
   addJob(job) {
-    this.aFirestore.collection('jobs').add(job);
+    return this.aFirestore.collection('jobs').add(job);
     // tslint:disable-next-line:no-shadowed-variable
     // return new Promise((resolve, reject) => {
     //   // tslint:disable-next-line:prefer-for-of
@@ -99,7 +128,7 @@ export class FirebaseService {
     const user = JSON.parse(localStorage.getItem('user'));
     return this.aFirestore.collection('orders', ref => ref
       .where('uid', '==', user.uid)
-      .where('status', '>=', 'D')
+      .where('status', '>=', 'D').orderBy('status').orderBy('datetime')
     ).snapshotChanges();
   }
 
@@ -138,7 +167,7 @@ export class FirebaseService {
   }
 
   // USER
-  createUserInfo(uid: string, realName: string, realGender: string, realCity: string) {
+  createUserInfo(uid: string, realName: string, realGender: string, realCity: string, mail: string) {
     return this.aFirestore.collection('users').doc(uid)
       .set({
         name: realName,
@@ -146,7 +175,8 @@ export class FirebaseService {
         role: 'client',
         city: realCity,
         active: true,
-        member_since: new Date()
+        member_since: new Date(),
+        email: mail
       });
   }
 

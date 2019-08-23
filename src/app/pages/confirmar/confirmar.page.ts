@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { CheckoutPage } from '../checkout/checkout.page';
 
 @Component({
   selector: 'app-confirmar',
+  providers: [CheckoutPage],
   templateUrl: './confirmar.page.html',
   styleUrls: ['./confirmar.page.scss'],
 })
@@ -17,16 +19,15 @@ export class ConfirmarPage implements OnInit {
   email: string;
   cellphone: string;
   name: string;
-  datetime: string;
+  datetime: Date;
   total: number;
-  notes: string;
-
+  notes;
   toShip: boolean;
   address: string;
   city: string;
+  record;
 
   daysLeft;
-
   itemsOnCart = [];
 
   constructor(
@@ -36,13 +37,15 @@ export class ConfirmarPage implements OnInit {
     private firebaseService: FirebaseService,
     private authService: AuthenticationService,
     public alertController: AlertController,
-    private loadingController: LoadingController
-  ) {
+    private loadingController: LoadingController,
+    private modalController: ModalController,
+    private checkoutPage: CheckoutPage
+    ) {
     this.route.queryParams.subscribe(params => {
+      this.datetime = new Date(params.datetime);
       this.email = params.email;
       this.cellphone = params.cellphone;
       this.name = params.name;
-      this.datetime = params.datetime;
       this.address = params.address;
       this.toShip = Boolean(params.shipToAddress);
       this.city = params.city;
@@ -60,7 +63,8 @@ export class ConfirmarPage implements OnInit {
     const firstDate = new Date();
     const secondDate = new Date(this.datetime);
 
-    return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+    const days = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+    return days;
   }
 
   updateTotalAndItemsOnCart() {
@@ -77,7 +81,8 @@ export class ConfirmarPage implements OnInit {
     }
 
     this.itemsOnCart = Object.keys(selected).map(key => selected[key]);
-    this.total = this.itemsOnCart.reduce((a, b) => a + (b.count * b.product.price), 0);
+    this.total = this.itemsOnCart.reduce((a, b) => a + (b.count * b.product.price), 0) + this.cartService.operationCharge;
+    this.cartService.total = this.total;
   }
 
   RemoveItemFromCartEvent(item) {
@@ -98,14 +103,11 @@ export class ConfirmarPage implements OnInit {
       this.showLoginAlert();
       return;
     }
-
-    this.loadingController.create({ message: 'Reservando'}).then(overlay => {
-      this.loading = overlay;
-      this.loading.present();
-    });
-
     const usr = JSON.parse(localStorage.getItem('user'));
-    const record = {
+    if (!this.notes) {
+      this.notes = '';
+    }
+    this.record = {
       name: this.name,
       email: this.email,
       phone: this.cellphone,
@@ -116,28 +118,54 @@ export class ConfirmarPage implements OnInit {
       status: 'Nuevo',
       notes: this.notes,
       uid: usr.uid,
+      operation_charge: this.cartService.operationCharge,
       create_date: new Date(),
-      gender: usr.info.gender
+      gender: usr.info.gender,
+      payment_method: 'Stripe',
+      ammount: this.total
     };
+    this.openCheckoutPopover();
+    // this.createOrder();
+  }
 
-    this.firebaseService.create_NewOrder(record).then(resp => {
-      this.loading.dismiss();
-      this.loading = null;
+  async openCheckoutPopover() {
+    const popover = await this.modalController.create({
+      component: CheckoutPage
+    });
+    popover.onDidDismiss().then((res) => {
+      if (res.data === 'Paid order') {
+        this.loadingController.create({ message: 'Reservando' }).then(overlay => {
+          this.loading = overlay;
+          this.loading.present();
+        });
+        this.createOrder();
+      }
+    });
+
+    return await popover.present();
+  }
+
+  createOrder() {
+    console.log('🤘trying 2 create order', JSON.stringify(this.record));
+    // this.record.payment_id = this.cartService.paymentId;
+    this.firebaseService.create_NewOrder(this.record).then(resp => {
+      console.log(resp);
       this.presentSuccessAlert();
       this.cartService.resetCart();
       this.router.navigate(['home']);
     }).catch(error => {
-      this.loading.dismiss();
       console.log(error);
-      this.presentErrorAlert();
+      this.presentErrorAlert(error);
+    }).finally(() => {
+      this.loading.dismiss();
     });
   }
 
   async presentSuccessAlert() {
     const alert = await this.alertController.create({
-      header: 'Gracias por reservar en Beauty2Go 😀',
-      message : 'Espera una llamada de confirmacion...',
-      buttons: ['OK']
+      header: 'Gracias por reservar en Beauty To Go 😀',
+      message : '',
+      buttons: ['Ok']
     });
     await alert.present();
   }
@@ -163,10 +191,10 @@ export class ConfirmarPage implements OnInit {
     await alert.present();
   }
 
-  async presentErrorAlert() {
+  async presentErrorAlert(error) {
     const alert = await this.alertController.create({
       header: 'Ocurrió un error 🙁',
-      message : 'No se recibió tu información, inténtalo más tarde...',
+      message : error,
       buttons: ['OK']
     });
     await alert.present();

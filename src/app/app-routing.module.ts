@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'confirmar', loadChildren: './pages/confirmar/confirmar.module#ConfirmarPageModule' },
   { path: 'orders', loadChildren: './pages/orders/tabs/tabs.module#TabsPageModule', canActivate: [LoggedInGuard] },
   { path: 'get-help', loadChildren: './pages/get-help/get-help.module#GetHelpPageModule', canActivate: [LoggedInGuard] },
-  { path: 'rate-popover', loadChildren: './components/rate-popover/rate-popover.module#RatePopoverPageModule' }
+  { path: 'rate-popover', loadChildren: './components/rate-popover/rate-popover.module#RatePopoverPageModule' },
+  // { path: 'checkout', loadChildren: './pages/checkout/checkout.module#CheckoutPageModule' }
   // { path: 'past-orders', loadChildren: './pages/orders/past-orders/past-orders.module#PastOrdersPageModule' },
   // { path: 'upcoming-orders', loadChildren: './pages/orders/upcoming-orders/upcoming-orders.module#UpcomingOrdersPageModule' },
 ];

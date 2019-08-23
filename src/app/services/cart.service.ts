@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,12 +8,23 @@ import { AngularFirestore } from 'angularfire2/firestore';
 export class CartService {
   private cart = [];
   products;
+  operationCharge = 100;
+  total: number;
+  customerEmail: string;
+  paymentId = '';
 
-  constructor(private afirestore: AngularFirestore) {
+  canPlaceOrders = false;
+
+  constructor(private afirestore: AngularFirestore, fireService: FirebaseService) {
     let usr = JSON.parse(localStorage.getItem('user'));
     if (usr === null) {
       usr = JSON.parse(localStorage.getItem('guest'));
     }
+
+    fireService.get_CompanySettings().subscribe(e => {
+      const element = e as any;
+      this.canPlaceOrders = element.can_place_orders;
+    });
   }
 
   getCompanyProducts() {
@@ -25,7 +37,7 @@ export class CartService {
       city = usr.info.city;
     }
     return this.afirestore.collection('products',
-      ref => ref.where('active', '==', true).where('city', '==', city)).snapshotChanges();
+      ref => ref.where('active', '==', true).where('city', '==', city).orderBy('price', 'desc')).snapshotChanges();
   }
 
   getCart() {
@@ -42,6 +54,10 @@ export class CartService {
 
   resetCart() {
     this.cart = [];
+  }
+
+  pushLogs(obj) {
+    this.afirestore.collection('logs').add(obj);
   }
 
 }

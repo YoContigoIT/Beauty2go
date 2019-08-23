@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-agendar',
@@ -31,11 +32,14 @@ export class AgendarPage implements OnInit {
   timeWasSelected = false;
   shipToAddress = false;
 
+  user;
+
   constructor(
     public formbuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private cartService: CartService) {
 
       this.route.queryParams.subscribe(params => {
         this.service = params.service;
@@ -44,7 +48,6 @@ export class AgendarPage implements OnInit {
         name: ['', Validators.compose([
           Validators.required,
           Validators.maxLength(80),
-          // Validators.pattern('[a-zA-Z ñÑ]*')])],
           Validators.pattern('[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-]+')])],
         email: ['', Validators.compose([
           Validators.required,
@@ -53,9 +56,6 @@ export class AgendarPage implements OnInit {
           Validators.pattern('[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')
         ]
         )],
-        // cellphone: ['', Validators.compose([
-        //   Validators.pattern('^[0-9]*$')
-        // ])],
         address: ['', Validators.compose([
           Validators.minLength(4)
         ])]
@@ -64,40 +64,31 @@ export class AgendarPage implements OnInit {
       this.email = this.formgroup.controls.email;
       this.cellphone = this.formgroup.controls.cellphone;
       this.address = this.formgroup.controls.address;
+      this.preloadFormFields();
     }
 
-  ngOnInit() {
-  }
-
-  // updateDatetime($event) {
-  //   this.dateWasSelected = true;
-  //   this.selectedDate = new Date($event.detail.value);
-  //   // format leading characters.. I want it to always have 2 chars
-  //   let minutes = this.selectedDate.getMinutes().toString();
-  //   minutes = this.convertoToTwoDigits(minutes);
-
-  //   let month = (+this.selectedDate.getMonth() + 1).toString();
-  //   month = this.convertoToTwoDigits(month);
-
-  //   this.formattedDatetime =
-  //     `${this.selectedDate.getFullYear()}/${month}/${this.selectedDate.getDate()} ${this.selectedDate.getHours()}:${minutes}`;
-  // }
+  ngOnInit() {}
 
   updateDate(event) {
     this.dateWasSelected = true;
     this.selectedDate = new Date(event.detail.value);
     this.month = (+this.selectedDate.getMonth() + 1).toString();
     this.month = this.convertoToTwoDigits(this.month);
-    this.selectedDate = `${this.selectedDate.getFullYear()}-${this.month}-${this.selectedDate.getDate()}`;
+    this.selectedDate =
+      `${this.selectedDate.getFullYear()}-${this.month}-${this.convertoToTwoDigits(this.selectedDate.getDate())}`;
+  }
+
+  preloadFormFields() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.email.setValue(this.user.info.email);
+    this.name.setValue(this.user.info.name);
+    this.selectedCity = this.user.info.city;
   }
 
   updateTime(event) {
     this.timeWasSelected = true;
     this.selectedTime = new Date(event.detail.value);
-    this.minutes = this.selectedTime.getMinutes().toString();
-    this.minutes = this.convertoToTwoDigits(this.minutes);
-    this.auxSelectedTime = `${this.selectedTime.getHours() + 5}:${this.minutes}:00`;
-    this.selectedTime = `${this.selectedTime.getHours()}:${this.minutes}:00`;
+    this.selectedTime = `${this.selectedTime.getHours()}:${this.convertoToTwoDigits(this.selectedTime.getMinutes())}:00`;
   }
 
   getCurrentTime() {
@@ -107,8 +98,9 @@ export class AgendarPage implements OnInit {
     return stringDate;
   }
 
-  convertoToTwoDigits(old: string) {
-    return old.length < 2 ? '0' + old : old;
+  convertoToTwoDigits(old) {
+    old = old.toString();
+    return (old.length < 2) ? `0${old}` : old;
   }
 
   bookForm() {
@@ -124,7 +116,6 @@ export class AgendarPage implements OnInit {
       this.presentAlert('email');
       return;
     }
-    // if (this.isEmptyString(this.cellphone.value)) {
     if (this.isEmptyString(this.selectedCellphone)) {
       this.presentAlert('telefono');
       return;
@@ -135,9 +126,9 @@ export class AgendarPage implements OnInit {
     }
     // check if selected date is at least 3 hours ahead
     const THREE_HOURS = 3 * (60 * 60 * 1000);
-    const mergedDate = new Date(this.selectedDate + 'T' + this.auxSelectedTime);
+    const mergedDate = new Date(`${this.selectedDate}T${this.selectedTime}-05:00`);
+
     if ((Number(mergedDate) - Number(new Date())) < (THREE_HOURS)) {
-      this.timeWasSelected = false;
       this.presentNotEnoughTimeAlert();
       return;
     }
@@ -146,18 +137,19 @@ export class AgendarPage implements OnInit {
       return;
     }
 
+    this.cartService.customerEmail = this.email.value;
+
     this.router.navigate(['/confirmar'], { queryParams:
       { name: this.name.value,
         email: this.email.value,
-        // cellphone: this.cellphone.value,
         cellphone: this.selectedCellphone,
         service: this.service,
-        datetime: mergedDate.toString(),
+        // datetime: mergedDate,
+        datetime: `${this.selectedDate}T${this.selectedTime}-05:00`,
         shipToAddress: true,
-        // shipToAddress: this.shipToAddress,
         address: this.address.value,
         city: this.selectedCity,
-        notes: this.notes,
+        notes: this.notes
       }
     });
   }
@@ -177,7 +169,6 @@ export class AgendarPage implements OnInit {
       return;
     }
     if (!this.isNumeric(typed)) {
-      // this.cellphone.setValue(this.phoneAux);
       this.selectedCellphone = this.phoneAux;
     }
   }

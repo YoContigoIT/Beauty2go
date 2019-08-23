@@ -28,31 +28,23 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     // const usr = JSON.parse(localStorage.getItem('user'));
-    // $(document).ready(() => {
-    //   $('#sidebarCollapse').on('click', () => {
-    //     $('#sidebar').toggleClass('active');
-    //     $(this).toggleClass('active');
-    //   });
-    // });
+
     if (!this.authService.isLoggedIn) {
       const guest = JSON.parse(localStorage.getItem('guest'));
-      console.log('guest init home', guest);
       if (guest === null) {
-        localStorage.setItem('guest', JSON.stringify({ city: 'CDMX' }));
-        // this.fireService.getCities().subscribe(snap => {
-        //   this.cities = [];
-        //   snap.forEach(city => {
-        //     // this.cities.push(city);
-        //     const cityObj = city as any;
-        //     this.cities.push({
-        //       name: cityObj.city_name,
-        //       type: 'radio',
-        //       label: cityObj.city_name,
-        //       value: cityObj.city_name
-        //     });
-        //   });
-        //   this.presentCityAlert();
-        // });
+        this.fireService.getCities().subscribe(snap => {
+          this.cities = [];
+          snap.forEach(city => {
+            const cityObj = city as any;
+            this.cities.push({
+              name: cityObj.city_name,
+              type: 'radio',
+              label: cityObj.city_name,
+              value: cityObj.city_name
+            });
+          });
+          this.presentCityAlert();
+        });
       }
     }
   }
@@ -86,7 +78,6 @@ export class HomePage implements OnInit {
   navigateToCategories() {
     const guest = JSON.parse(localStorage.getItem('guest'));
     if (!this.authService.isLoggedIn && guest === null) {
-      console.log('isnt logged in and guest is null');
       this.presentCityAlert();
       return;
     }
@@ -107,7 +98,11 @@ export class HomePage implements OnInit {
   }
 
   privacyClicked() {
-    window.open('https://beautyapp-1560984291083.firebaseapp.com/privacy', '_system', 'location=yes');
+    window.open('http://beautytogo.mx/aviso-de-privacidad-app/', '_system', 'location=yes');
+  }
+
+  termsClicked() {
+    window.open('http://beautytogo.mx/terminos-y-condiciones-del-servicio/', '_system', 'location=yes');
   }
 
 }

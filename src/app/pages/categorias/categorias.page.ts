@@ -24,7 +24,7 @@ export class CategoriasPage implements OnInit {
   };
 
   constructor(private router: Router,
-              private cartService: CartService,
+              public cartService: CartService,
               private authService: AuthenticationService,
               private alertController: AlertController,
               private loadingController: LoadingController) {
@@ -37,7 +37,7 @@ export class CategoriasPage implements OnInit {
     });
 
     this.productsSuscription = this.cartService.getCompanyProducts().subscribe(items => {
-
+      // categorizing products:
       const categoriesHash = {};
       items.forEach(element => {
         const prod = element.payload.doc.data() as any;
@@ -62,7 +62,7 @@ export class CategoriasPage implements OnInit {
       }
       setTimeout(() => {
         this.loading.dismiss();
-      }, 1000);
+      }, 700);
     });
   }
 
@@ -75,9 +75,26 @@ export class CategoriasPage implements OnInit {
   }
 
   openCart() {
-    if (!this.authService.isLoggedIn) {
+    if (!this.cartService.canPlaceOrders) {
+      this.showNotAvailableForOrdersAlert();
+    } else {
+      if (!this.authService.isLoggedIn) {
+        this.showLoginAlert();
+      } else if (this.cart.length > 0) {
+        this.router.navigate(['/agendar']);
+      }
     }
-    if (this.cart.length > 0) { this.router.navigate(['/agendar']); }
+  }
+
+  async showNotAvailableForOrdersAlert() {
+    const alert = await this.alertController.create({
+      header: 'Oops',
+      message: 'BeautyToGo todavía no recibe pedidos. ¡Espera la fecha de lanzamiento!',
+      buttons: [{
+        text: 'Ok'
+      }]
+    });
+    await alert.present();
   }
 
   async showLoginAlert() {

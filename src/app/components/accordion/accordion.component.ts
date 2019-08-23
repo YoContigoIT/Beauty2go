@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 })
 export class AccordionComponent implements OnInit {
 
-  accordionExpanded = true;
+  accordionExpanded = false;
   @ViewChild('cc') cardContent: any;
   // tslint:disable-next-line:no-input-rename
   @Input('category') category;

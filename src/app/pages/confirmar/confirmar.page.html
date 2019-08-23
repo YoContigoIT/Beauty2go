@@ -10,17 +10,17 @@
 <ion-content>
   <br />
   <div class="description-row centered">
-    <ion-label class="description" position="floating">Estas por reservar en "Beauty 2 Go"</ion-label>
+    <ion-label class="description" position="floating">Estas por reservar en "BeautyToGo"</ion-label>
     <br />
-    <ion-label class="description" > los siguientes servicios: <b></b></ion-label>
+    <ion-label class="description"> los siguientes servicios: <b></b></ion-label>
     <br />
     <ion-label class="eta"><ion-icon name="alarm"></ion-icon> Faltan {{ daysLeft }} días</ion-label>
   </div>
 
   <div class="description-row">
-    <ion-label class="date-description">Para el día <b>{{ this.datetime | date : 'short' }}</b></ion-label>
+    <ion-label class="date-description">Para el día <b>{{ this.datetime | date : 'yyyy/MM/dd HH:mm' }}</b></ion-label>
   </div>
-
+  <br/>
   <div class="description-row bordeada">
     <ion-list lines="full" show-delete="true">
       <ion-item-sliding *ngFor="let item of itemsOnCart" lines="inset">
@@ -32,13 +32,16 @@
           </ion-item-option>
         </ion-item-options>
         <ion-item class="item-remove-animate item">
-          <p class="units">{{item.count}}</p>   x   {{item.product.product_name}}
+          <p class="units">{{item.count}}</p> {{item.product.product_name}}
           <ion-label slot="end" text-right>{{(item.product.price * item.count) | currency:'MXN':'symbol' }}</ion-label>
         </ion-item>
       </ion-item-sliding>
     </ion-list>
-    
+
     <ion-list>
+      <ion-item>
+        Gastos de operación: <span slot="end">{{ this.cartService.operationCharge | currency:'MXN':'symbol' }}</span>
+      </ion-item>
       <ion-item>
         Total: <span slot="end">{{ total | currency:'MXN':'symbol' }}</span>
       </ion-item>
@@ -60,15 +63,13 @@
     <ion-label class="personal-description" position="floating">Teléfono: <b>{{this.cellphone}}</b></ion-label>
   </div>
   <div class="description-row">
-    <ion-label class="personal-description" position="floating">Servicio a domicilio: <b>{{this.toShip === true ? 'SI' : 'NO'}}</b></ion-label>
+    <ion-label class="personal-description" position="floating">Servicio a domicilio:
+      <b>{{this.toShip === true ? 'SI' : 'NO'}}</b></ion-label>
   </div>
   <div *ngIf="toShip === true" class="description-row">
     <ion-label class="personal-description" position="floating">En: <b>{{this.address}}, {{this.city}}</b></ion-label>
   </div>
 
-  <ion-button 
-          [disabled]="itemsOnCart.length <= 0"
-          color="primary" 
-          expand="block"
-          (click)="CreateRecord()">Reservar ahora!</ion-button>
+  <ion-button [disabled]="itemsOnCart.length <= 0" color="primary" expand="block" (click)="CreateRecord()">Pagar</ion-button>
+  <!-- <ion-button (click)="openPopover($event, )"></ion-button> -->
 </ion-content>

@@ -66,7 +66,7 @@ export class AuthenticationService {
     return new Promise<any>((result, reject) => {
       this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(
         res => {
-          this.fireService.createUserInfo(res.user.uid, name, gender, city);
+          this.fireService.createUserInfo(res.user.uid, name, gender, city, email);
           res.user.updateProfile({
             displayName: name
           }).then();

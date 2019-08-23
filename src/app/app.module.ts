@@ -11,11 +11,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireFunctionsModule } from 'angularfire2/functions';
 import { environment } from '../environments/environment';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { FcmService } from './services/fcm.service';
 import * as $ from 'jquery';
 import { RatePopoverPageModule } from './components/rate-popover/rate-popover.module';
+import { CheckoutPageModule } from './pages/checkout/checkout.module';
+import { Stripe } from '@ionic-native/stripe/ngx';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,14 +32,20 @@ import { RatePopoverPageModule } from './components/rate-popover/rate-popover.mo
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    RatePopoverPageModule
+    RatePopoverPageModule,
+    CheckoutPageModule,
+    AngularFireFunctionsModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Firebase,
-    FcmService
+    FcmService,
+    Stripe,
+    HttpClient,
+    HTTP
   ],
   bootstrap: [AppComponent]
 })

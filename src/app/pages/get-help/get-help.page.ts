@@ -84,8 +84,6 @@ export class GetHelpPage implements OnInit {
         text: 'Si',
         cssClass: 'secondary',
         handler: () => {
-          // TODO
-          // this.fireService.(this.order.id);
           this.fireService.updateOrderStatus(this.order.id, 'Cancelado por cliente').then(() => {
             this.router.navigate(['orders']).catch(err => {
               console.log('Algo pasó', err);

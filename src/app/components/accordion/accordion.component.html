@@ -22,7 +22,7 @@
             <ion-card-content>
               <img src="{{ product.product.img_src }}">
               <ion-label>{{ product.product.price | currency:'MXN':'symbol' }}</ion-label>
-              <ion-button class="add-to-cart-button" color="secondary" expand="full" (click)="addToCart(product)">{{ alreadyOnCart(product) ? 'Quitar' : 'Agregar' }}</ion-button>  <!--  [disabled]="alreadyOnCart(product)" -->
+              <ion-button class="add-to-cart-button" color="dark" expand="full" (click)="addToCart(product)">{{ alreadyOnCart(product) ? 'Quitar' : 'Agregar' }}</ion-button>  <!--  [disabled]="alreadyOnCart(product)" -->
             </ion-card-content>
           </ion-card-header>
         </ion-card>
