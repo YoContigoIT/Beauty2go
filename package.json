@@ -31,9 +31,9 @@
     "@types/jquery": "^3.3.30",
     "angularfire2": "^5.2.1",
     "bootstrap": "^4.3.1",
-    "cordova-android": "8.0.0",
+    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
-    "cordova-ios": "^5.0.1",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-advanced-http": "2.1.1",
     "cordova-plugin-androidx": "^1.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.0",
@@ -86,7 +86,9 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-firebasex": {},
       "cordova-plugin-stripe": {},
@@ -95,9 +97,9 @@
       }
     },
     "platforms": [
-      "android",
       "browser",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

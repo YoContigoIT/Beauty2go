@@ -27,6 +27,8 @@ export class ConfirmarPage implements OnInit {
   city: string;
   record;
 
+  selectedPaymentMethod = '';
+
   daysLeft;
   itemsOnCart = [];
 
@@ -99,10 +101,17 @@ export class ConfirmarPage implements OnInit {
   }
 
   CreateRecord() {
+    console.log('payment method:', this.selectedPaymentMethod);
     if (!this.authService.isLoggedIn) {
       this.showLoginAlert();
       return;
     }
+
+    if (this.selectedPaymentMethod === '') {
+      this.showPaymentMethodAlert();
+      return;
+    }
+
     const usr = JSON.parse(localStorage.getItem('user'));
     if (!this.notes) {
       this.notes = '';
@@ -121,10 +130,12 @@ export class ConfirmarPage implements OnInit {
       operation_charge: this.cartService.operationCharge,
       create_date: new Date(),
       gender: usr.info.gender,
-      payment_method: 'Stripe',
+      payment_method: this.selectedPaymentMethod,
       ammount: this.total
     };
-    this.openCheckoutPopover();
+    
+    this.selectedPaymentMethod === 'Stripe' ? this.openCheckoutPopover() : this.createOrder();
+    // this.openCheckoutPopover();
     // this.createOrder();
   }
 
@@ -157,7 +168,8 @@ export class ConfirmarPage implements OnInit {
       console.log(error);
       this.presentErrorAlert(error);
     }).finally(() => {
-      this.loading.dismiss();
+      if (this.loading) this.loading.dismiss();
+      // this.loading.dismiss();
     });
   }
 
@@ -166,6 +178,15 @@ export class ConfirmarPage implements OnInit {
       header: 'Gracias por reservar en Beauty To Go 😀',
       message : '',
       buttons: ['Ok']
+    });
+    await alert.present();
+  }
+
+  async showPaymentMethodAlert() {
+    const alert = await this.alertController.create({
+      header: 'Oops',
+      message: 'Selecciona un método de pago',
+      buttons: ['OK']
     });
     await alert.present();
   }

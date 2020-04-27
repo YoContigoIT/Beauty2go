@@ -70,6 +70,14 @@
     <ion-label class="personal-description" position="floating">En: <b>{{this.address}}, {{this.city}}</b></ion-label>
   </div>
 
+  <ion-item>
+    <ion-label>Método de pago: </ion-label>
+    <ion-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedPaymentMethod">
+      <ion-select-option value="Efectivo">Efectivo</ion-select-option>
+      <ion-select-option value="Stripe">Tarjeta de crédito/débito</ion-select-option>
+    </ion-select>
+  </ion-item>
+
   <ion-button [disabled]="itemsOnCart.length <= 0" color="primary" expand="block" (click)="CreateRecord()">Pagar</ion-button>
   <!-- <ion-button (click)="openPopover($event, )"></ion-button> -->
 </ion-content>
