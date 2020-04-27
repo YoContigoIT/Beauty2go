@@ -2,7 +2,7 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <img alt="logo" id="header_logo"
-        src="assets/img/b2g-circular.png">
+        src="assets/img/b2g-circular-centered.png">
       <ion-button *ngIf="authService.isLoggedIn" class="sideBarButtons" (click)="logoutClicked()" style="padding: 15px; height: 65px;" color="dark">Cerrar sesión</ion-button>
       <ion-button *ngIf="!authService.isLoggedIn" class="sideBarButtons" (click)="navigateToLogin()" style="padding: 15px; height: 65px;" color="dark">Log in</ion-button>
       <ion-button class="sideBarButtons" href="http://beautytogo.mx/aviso-de-privacidad-app/" style="padding: 15px; height: 65px;" color="dark">Privacidad</ion-button>
