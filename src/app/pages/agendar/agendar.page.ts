@@ -17,13 +17,14 @@ export class AgendarPage implements OnInit {
   service: string;
   address: AbstractControl;
   notes;
+  coupon;
   selectedDate;
   selectedTime;
   auxSelectedTime;
   formattedDatetime;
   phoneAux = '';
   selectedCity = '';
-  selectedCellphone = '';
+  selectedCellphone = '2222222'; // = ''
 
   month;
   minutes;
@@ -59,15 +60,17 @@ export class AgendarPage implements OnInit {
         address: ['', Validators.compose([
           Validators.minLength(4)
         ])]
+        
       });
       this.name = this.formgroup.controls.name;
       this.email = this.formgroup.controls.email;
       this.cellphone = this.formgroup.controls.cellphone;
       this.address = this.formgroup.controls.address;
+      this.coupon = '';
       this.preloadFormFields();
     }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   updateDate(event) {
     this.dateWasSelected = true;
@@ -82,7 +85,7 @@ export class AgendarPage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.email.setValue(this.user.info.email);
     this.name.setValue(this.user.info.name);
-    this.selectedCity = this.user.info.city;
+    this.selectedCity = this.user.info.city; 
   }
 
   updateTime(event) {
@@ -124,6 +127,7 @@ export class AgendarPage implements OnInit {
       this.presentAlert('fecha y hora');
       return;
     }
+
     // check if selected date is at least 3 hours ahead
     const THREE_HOURS = 3 * (60 * 60 * 1000);
     const mergedDate = new Date(`${this.selectedDate}T${this.selectedTime}-05:00`);
@@ -149,7 +153,8 @@ export class AgendarPage implements OnInit {
         shipToAddress: true,
         address: this.address.value,
         city: this.selectedCity,
-        notes: this.notes
+        notes: this.notes,
+        coupon: this.coupon
       }
     });
   }

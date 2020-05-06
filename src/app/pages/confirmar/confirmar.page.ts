@@ -5,6 +5,7 @@ import { FirebaseService } from '../../services/firebase.service';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CheckoutPage } from '../checkout/checkout.page';
+import { text } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-confirmar',
@@ -22,6 +23,8 @@ export class ConfirmarPage implements OnInit {
   datetime: Date;
   total: number;
   notes;
+  coupon: string;
+  discount;
   toShip: boolean;
   address: string;
   city: string;
@@ -31,6 +34,11 @@ export class ConfirmarPage implements OnInit {
 
   daysLeft;
   itemsOnCart = [];
+  coupons: any;
+  miobjeto;
+  todiscount = 0;
+  type = 'sindescuento';
+  couponcount;
 
   constructor(
     private router: Router,
@@ -52,12 +60,20 @@ export class ConfirmarPage implements OnInit {
       this.toShip = Boolean(params.shipToAddress);
       this.city = params.city;
       this.notes = params.notes;
+      this.coupon = params.coupon;
       this.daysLeft = this.daysBetween();
     });
   }
+  
 
   ngOnInit() {
-    this.updateTotalAndItemsOnCart();
+    if(this.coupon == "") {this.coupon = " "; this.type = 'sincupon'}
+    this.coupons = this.firebaseService.getCoupons(this.coupon).subscribe(data => {
+     this.miobjeto = data;
+     console.log('cupon:', this.miobjeto);
+     this.updateTotalAndItemsOnCart();
+    });
+    
   }
 
   daysBetween() {
@@ -72,6 +88,26 @@ export class ConfirmarPage implements OnInit {
   updateTotalAndItemsOnCart() {
     const items = this.cartService.getCart();
     const selected = {};
+    
+
+    try{
+      console.log('descuento: ', this.miobjeto["value"], this.miobjeto["type"]);
+
+      this.type = this.miobjeto["type"]; //tipo de descuento menos o porciento
+      if(!this.miobjeto['active']) this.type = 'caducado';
+      this.couponcount = this.miobjeto["times_used"];
+
+    }catch{
+      this.type = 'sindescuento';
+      this.todiscount = 0;
+      
+    }
+    
+    if(this.coupon == " ") {this.type = 'sincupon'}
+    
+
+
+
 
     // I use this to count different items and calculate the total
     for (const obj of items) {
@@ -83,7 +119,36 @@ export class ConfirmarPage implements OnInit {
     }
 
     this.itemsOnCart = Object.keys(selected).map(key => selected[key]);
-    this.total = this.itemsOnCart.reduce((a, b) => a + (b.count * b.product.price), 0) + this.cartService.operationCharge;
+    this.total = this.itemsOnCart.reduce((a, b) => a + (b.count * b.product.price), 0);
+
+    // if(this.type == 'caducado'){
+    //   console.log('Su cupon ha caducado');
+    // }else{
+    //   if(this.type == 'menos' )
+    //       this.todiscount = this.miobjeto["discount"];
+    //   else if(this.type == 'porciento')
+    //       this.todiscount = this.miobjeto["discount"] / 100 * this.total;
+    // }
+    switch(this.type){
+      case 'menos':
+        this.todiscount = this.miobjeto["value"]; break;
+      case 'porciento':
+        this.todiscount = this.miobjeto["value"] / 100 * this.total; break;
+      case 'caducado':
+        console.log('1 Su cupon ha caducado'); this.showAlert('El cupon ha caducado'); break;
+      case 'sincupon':
+        console.log('2 cupon no ingresado'); break;
+      case 'sindescuento':
+        console.log('3 cupon invalido'); this.showAlert('Cupon invalido'); break;
+      default:
+        console.log('4 cupon desconocido');
+
+    }
+
+
+    this.total += this.cartService.operationCharge;
+    this.total -= this.todiscount;
+
     this.cartService.total = this.total;
   }
 
@@ -126,6 +191,7 @@ export class ConfirmarPage implements OnInit {
       products: this.getProductArray(),
       status: 'Nuevo',
       notes: this.notes,
+      coupon: this.coupon,
       uid: usr.uid,
       operation_charge: this.cartService.operationCharge,
       create_date: new Date(),
@@ -161,6 +227,7 @@ export class ConfirmarPage implements OnInit {
     // this.record.payment_id = this.cartService.paymentId;
     this.firebaseService.create_NewOrder(this.record).then(resp => {
       console.log(resp);
+      this.firebaseService.updatecouponcount(this.couponcount+1, this.coupon);
       this.presentSuccessAlert();
       this.cartService.resetCart();
       this.router.navigate(['home']);
@@ -186,6 +253,14 @@ export class ConfirmarPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Oops',
       message: 'Selecciona un método de pago',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+  async showAlert(msg) {
+    const alert = await this.alertController.create({
+      header: 'Oops',
+      message: msg,
       buttons: ['OK']
     });
     await alert.present();

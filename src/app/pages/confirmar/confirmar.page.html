@@ -42,6 +42,11 @@
       <ion-item>
         Gastos de operación: <span slot="end">{{ this.cartService.operationCharge | currency:'MXN':'symbol' }}</span>
       </ion-item>
+
+      <ion-item *ngIf="todiscount != 0">
+        Cupón: {{ coupon }} <span slot="end"> - {{ todiscount | currency:'MXN':'symbol' }}</span>
+      </ion-item>
+
       <ion-item>
         Total: <span slot="end">{{ total | currency:'MXN':'symbol' }}</span>
       </ion-item>

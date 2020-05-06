@@ -8,6 +8,7 @@ import { reject } from 'q';
   providedIn: 'root'
 })
 export class FirebaseService {
+  
   readonly companyName = 'beauty2go';
 
   constructor(private aFirestore: AngularFirestore) { }
@@ -190,8 +191,19 @@ export class FirebaseService {
   }
 
   // CITIES
-  getCities() {
+  getCities() { 
     return this.aFirestore.collection('cities', ref => ref.where('active', '==', true).orderBy('city_name')).valueChanges();
   }
+
+  //COUPONS
+  getCoupons(code: string) {
+    return this.aFirestore.collection('coupons').doc(code).valueChanges();
+  }
+  updatecouponcount(couponcount, code) {
+    return this.aFirestore.collection('coupons').doc(code).update({
+      times_used: couponcount
+    });
+  }
+
 
 }
