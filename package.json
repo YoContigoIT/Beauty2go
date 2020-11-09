@@ -1,6 +1,6 @@
 {
   "name": "Beauty2Go",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "author": "Antonio Jaime",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -41,7 +41,7 @@
     "cordova-plugin-firebasex": "^6.0.0",
     "cordova-plugin-stripe": "1.5.3",
     "core-js": "^2.5.4",
-    "firebase": "^6.3.0",
+    "firebase": "^7.14.2",
     "jquery": "^3.4.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
@@ -97,7 +97,6 @@
       }
     },
     "platforms": [
-      "browser",
       "ios",
       "android"
     ]

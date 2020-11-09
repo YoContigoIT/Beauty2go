@@ -24,7 +24,7 @@ export class AgendarPage implements OnInit {
   formattedDatetime;
   phoneAux = '';
   selectedCity = '';
-  selectedCellphone = '2222222'; // = ''
+  selectedCellphone = '';
 
   month;
   minutes;

@@ -15,7 +15,7 @@ export class CheckoutPage implements OnInit {
   paymentAmount: string;
   currencyIcon = '$';
   // TODO: use production key and remove test card numbers
-  stripeKey = 'pk_test_BdPCHbn2Y00mtgYPavnZvQIh00BHkQ05Ny';
+  stripeKey = 'pk_live_IOv2Rl10PbU5WRMFe7of7KwF00gBu2DFLY'; 
 
   passedInfo;
   private loading;
